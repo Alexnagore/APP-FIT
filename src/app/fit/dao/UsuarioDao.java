@@ -28,6 +28,11 @@ public class UsuarioDao implements UsuarioInterface{
     public List<UsuarioModelo> getListaUsuarios() {
         return listaUsuarios;
     }
+    
+    @Override
+    public UsuarioModelo getUsuario(UsuarioModelo usuario) {
+        return listaUsuarios.get(listaUsuarios.indexOf(usuario));
+    }
 
     @Override
     public void setListaUsuarios(List<UsuarioModelo> listaUsuarios) {

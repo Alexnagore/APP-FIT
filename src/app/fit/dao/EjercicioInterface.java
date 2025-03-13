@@ -11,6 +11,7 @@ public interface EjercicioInterface {
     
     public void agregarEjercicio(EjercicioModelo ejercicio);
     public List<EjercicioModelo> getListaEjercicios();
+    public EjercicioModelo getEjercicio(EjercicioModelo ejercicio);
     public void setListaEjercicios(List<EjercicioModelo> listaEjercicios);
     public void actualizaEjercicios(EjercicioModelo ejercicio);
 }

@@ -26,6 +26,11 @@ public class EjercicioDao implements EjercicioInterface {
     public List<EjercicioModelo> getListaEjercicios() {
         return listaEjercicios;
     }
+    
+    @Override
+    public EjercicioModelo getEjercicio(EjercicioModelo ejercicio) {
+        return listaEjercicios.get(listaEjercicios.indexOf(ejercicio));
+    }
 
     @Override
     public void setListaEjercicios(List<EjercicioModelo> listaEjercicios) {

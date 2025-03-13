@@ -14,6 +14,7 @@ import java.util.List;
 public interface UsuarioInterface {
     public void agregarUsuario(UsuarioModelo usuario);
     public List<UsuarioModelo> getListaUsuarios();
+    public UsuarioModelo getUsuario(UsuarioModelo usuario);
     public void setListaUsuarios(List<UsuarioModelo> listaUsuarios);
     public void actualizaUsuarios(UsuarioModelo usuario);
 }

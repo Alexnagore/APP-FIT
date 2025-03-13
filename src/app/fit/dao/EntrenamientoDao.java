@@ -24,6 +24,11 @@ public class EntrenamientoDao implements EntrenamientoInterface {
     public List<EntrenamientoModelo> getListaEntrenamientos() {
         return listaEntrenamientos;
     }
+    
+    @Override
+    public EntrenamientoModelo getEntrenamiento(EntrenamientoModelo entrenamiento) {
+        return listaEntrenamientos.get(listaEntrenamientos.indexOf(entrenamiento));
+    }
 
     @Override
     public void setListaEntrenamientos(List<EntrenamientoModelo> listaEjercicios) {
