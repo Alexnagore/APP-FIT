@@ -12,7 +12,7 @@ public class AppFit {
 
     public static void main(String[] args) {
     
-        AppFitControlador controlador = new AppFitControlador();
+        AppControlador controlador = new AppControlador();
     }
     
 }
