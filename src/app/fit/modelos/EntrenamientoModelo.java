@@ -1,13 +1,15 @@
 package app.fit.modelos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EntrenamientoModelo {
     
     private List<EjercicioModelo> ejercicios;
     
-    public EntrenamientoModelo (List<EjercicioModelo> ejercicios) {
-        this.ejercicios = ejercicios;
+    
+    public EntrenamientoModelo () {
+        this.ejercicios = new ArrayList<>();
     }
 
     public List<EjercicioModelo> getEjercicios() {
