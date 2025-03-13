@@ -5,8 +5,7 @@ import java.util.List;
 
 public class EntrenamientoModelo {
     
-    private List<EjercicioModelo> ejercicios;
-    
+    private List<EjercicioModelo> ejercicios; 
     
     public EntrenamientoModelo () {
         this.ejercicios = new ArrayList<>();
@@ -18,6 +17,18 @@ public class EntrenamientoModelo {
     
     public void agregarEjercicio(EjercicioModelo ejercicio) {
         this.ejercicios.add(ejercicio);
+    }
+    
+    public int getPuntuacion() {
+        return calcularPuntuacion();
+    }
+    
+    private int calcularPuntuacion() {
+        var puntos = 0;
+        for (EjercicioModelo ejercicio : ejercicios) {
+            puntos += ejercicio.getPuntuacion();
+        }
+        return puntos;
     }
 
     @Override
