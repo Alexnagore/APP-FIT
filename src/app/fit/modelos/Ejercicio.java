@@ -2,9 +2,9 @@ package app.fit.modelos;
 
 public class Ejercicio {
     
-    private String descripcion;
-    private int puntuacion;
-    private int tiempo;
+    private final String descripcion;
+    private final int puntuacion;
+    private final int tiempo;
     private Localizacion puntoInicial;
     private Localizacion puntoFinal;
     private int numRepeticiones;
@@ -43,5 +43,15 @@ public class Ejercicio {
     public Localizacion getPuntoFinal() {
         return puntoFinal;
     }
- 
+
+    public int getNumRepeticiones() {
+        return numRepeticiones;
+    }
+
+    @Override
+    public String toString() {
+        return "Ejercicio{" + "descripcion=" + descripcion + ", puntuacion=" + puntuacion + ", tiempo=" + tiempo + ", puntoInicial=" + puntoInicial + ", puntoFinal=" + puntoFinal + ", numRepeticiones=" + numRepeticiones + '}';
+    }
+    
+    
 }

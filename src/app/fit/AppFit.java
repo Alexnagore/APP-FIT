@@ -10,11 +10,9 @@ package app.fit;
  */
 public class AppFit {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+    
+        AppFitControlador controlador = new AppFitControlador();
     }
     
 }
