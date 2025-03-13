@@ -5,14 +5,20 @@ import java.util.List;
 
 public class PartidaModelo {
     
+    private UsuarioModelo usuario;
     private List<EntrenamientoModelo> entrenamientos;
     
-    public PartidaModelo () {
+    public PartidaModelo (UsuarioModelo usuario) {
+        this.usuario = usuario;
         this.entrenamientos = new ArrayList();
     }
 
     public List<EntrenamientoModelo> getEntrenamientos() {
         return entrenamientos;
+    }
+    
+    public UsuarioModelo getUsuario() {
+        return this.usuario;
     }
     
     public void addEntrenamiento (EntrenamientoModelo entrenamiento) {
@@ -21,7 +27,7 @@ public class PartidaModelo {
 
     @Override
     public String toString() {
-        return "Partida{" + "entrenamientos=" + entrenamientos + '}';
+        return "Partida{" + usuario.toString() + ", entrenamientos=" + entrenamientos.toString() + '}';
     }
     
     

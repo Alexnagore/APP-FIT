@@ -50,7 +50,7 @@ public class UsuarioModelo {
 
     @Override
     public String toString() {
-        return "UsuarioModelo{" + "nombre=" + nombre + ", apellido=" + apellido + ", puntuacion=" + puntuacion + ", entrenamientosCompletados=" + entrenamientosCompletados + '}';
+        return "Usuario{" + "nombre=" + nombre + ", apellido=" + apellido + ", puntuacion=" + puntuacion + ", entrenamientosCompletados=" + entrenamientosCompletados + '}';
     }
     
     

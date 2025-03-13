@@ -22,7 +22,7 @@ public class EntrenamientoModelo {
 
     @Override
     public String toString() {
-        return "Entrenamiento{" + "ejercicios=" + ejercicios + '}';
+        return "Entrenamiento{" + "ejercicios=" + ejercicios.toString() + '}';
     }
     
 }
