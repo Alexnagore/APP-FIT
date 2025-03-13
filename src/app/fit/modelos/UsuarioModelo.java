@@ -47,6 +47,11 @@ public class UsuarioModelo {
     public void incrementarEntrenamientosCompletados() {
         this.entrenamientosCompletados += 1;
     }
+
+    @Override
+    public String toString() {
+        return "UsuarioModelo{" + "nombre=" + nombre + ", apellido=" + apellido + ", puntuacion=" + puntuacion + ", entrenamientosCompletados=" + entrenamientosCompletados + '}';
+    }
     
     
 }
