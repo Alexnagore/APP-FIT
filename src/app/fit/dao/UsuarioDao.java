@@ -4,7 +4,7 @@
  */
 package app.fit.dao;
 
-import app.fit.modelos.UsuarioModelo;
+import app.fit.modelos.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,39 +13,39 @@ import java.util.List;
  * @author jmeri
  */
 public class UsuarioDao implements UsuarioInterface{
-    private List<UsuarioModelo> listaUsuarios;
+    private List<Usuario> listaUsuarios;
     
     public UsuarioDao(){
        listaUsuarios = new ArrayList<>();
     }
     
     @Override
-    public void agregarUsuario(UsuarioModelo usuario){
+    public void agregarUsuario(Usuario usuario){
         listaUsuarios.add(usuario);
     }
     
     @Override
-    public void eliminarUsuario(UsuarioModelo usuario){
+    public void eliminarUsuario(Usuario usuario){
         listaUsuarios.remove(listaUsuarios.indexOf(usuario));
     }
     
     @Override
-    public List<UsuarioModelo> getListaUsuarios() {
+    public List<Usuario> getListaUsuarios() {
         return listaUsuarios;
     }
     
     @Override
-    public UsuarioModelo getUsuario(UsuarioModelo usuario) {
+    public Usuario getUsuario(Usuario usuario) {
         return listaUsuarios.get(listaUsuarios.indexOf(usuario));
     }
 
     @Override
-    public void setListaUsuarios(List<UsuarioModelo> listaUsuarios) {
+    public void setListaUsuarios(List<Usuario> listaUsuarios) {
         this.listaUsuarios = listaUsuarios;
     }
     
     @Override
-    public void actualizaUsuarios(UsuarioModelo usuario){
+    public void actualizaUsuarios(Usuario usuario){
         listaUsuarios.set(listaUsuarios.indexOf(usuario), usuario);
     }
 }

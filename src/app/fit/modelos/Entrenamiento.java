@@ -3,19 +3,19 @@ package app.fit.modelos;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EntrenamientoModelo {
+public class Entrenamiento {
     
-    private List<EjercicioModelo> ejercicios; 
+    private List<Ejercicio> ejercicios; 
     
-    public EntrenamientoModelo () {
+    public Entrenamiento () {
         this.ejercicios = new ArrayList<>();
     }
 
-    public List<EjercicioModelo> getEjercicios() {
+    public List<Ejercicio> getEjercicios() {
         return ejercicios;
     }
     
-    public void agregarEjercicio(EjercicioModelo ejercicio) {
+    public void agregarEjercicio(Ejercicio ejercicio) {
         this.ejercicios.add(ejercicio);
     }
     
@@ -25,7 +25,7 @@ public class EntrenamientoModelo {
     
     private int calcularPuntuacion() {
         var puntos = 0;
-        for (EjercicioModelo ejercicio : ejercicios) {
+        for (Ejercicio ejercicio : ejercicios) {
             puntos += ejercicio.getPuntuacion();
         }
         return puntos;

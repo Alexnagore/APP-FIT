@@ -1,6 +1,6 @@
 package app.fit.modelos;
 
-public class EjercicioModelo {
+public class Ejercicio {
     
     private final String descripcion;
     private final int puntuacion;
@@ -9,7 +9,7 @@ public class EjercicioModelo {
     private Localizacion puntoFinal;
     private int numRepeticiones;
 
-    public EjercicioModelo(String descripcion, int puntuacion, int tiempo, Localizacion puntoInicial, Localizacion puntoFinal) {
+    public Ejercicio(String descripcion, int puntuacion, int tiempo, Localizacion puntoInicial, Localizacion puntoFinal) {
         this.descripcion = descripcion;
         this.puntuacion = puntuacion;
         this.tiempo = tiempo;
@@ -17,7 +17,7 @@ public class EjercicioModelo {
         this.puntoFinal = puntoFinal;
     }
     
-    public EjercicioModelo(String descripcion, int puntuacion, int tiempo, int numRepeticiones) {
+    public Ejercicio(String descripcion, int puntuacion, int tiempo, int numRepeticiones) {
         this.descripcion = descripcion;
         this.puntuacion = puntuacion;
         this.tiempo = tiempo;

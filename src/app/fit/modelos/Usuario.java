@@ -1,6 +1,6 @@
 package app.fit.modelos;
 
-public class UsuarioModelo {
+public class Usuario {
     
     private String nombre;
     private String apellido;
@@ -9,7 +9,7 @@ public class UsuarioModelo {
     private int puntuacion;
     private int entrenamientosCompletados;
 
-    public UsuarioModelo(String nombre, String apellido, String correo, String contraseña) {
+    public Usuario(String nombre, String apellido, String correo, String contraseña) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;

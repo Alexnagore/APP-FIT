@@ -4,7 +4,7 @@
  */
 package app.fit.dao;
 
-import app.fit.modelos.UsuarioModelo;
+import app.fit.modelos.Usuario;
 import java.util.List;
 
 /**
@@ -12,10 +12,10 @@ import java.util.List;
  * @author jmeri
  */
 public interface UsuarioInterface {
-    public void agregarUsuario(UsuarioModelo usuario);
-    public void eliminarUsuario(UsuarioModelo usuario);
-    public List<UsuarioModelo> getListaUsuarios();
-    public UsuarioModelo getUsuario(UsuarioModelo usuario);
-    public void setListaUsuarios(List<UsuarioModelo> listaUsuarios);
-    public void actualizaUsuarios(UsuarioModelo usuario);
+    public void agregarUsuario(Usuario usuario);
+    public void eliminarUsuario(Usuario usuario);
+    public List<Usuario> getListaUsuarios();
+    public Usuario getUsuario(Usuario usuario);
+    public void setListaUsuarios(List<Usuario> listaUsuarios);
+    public void actualizaUsuarios(Usuario usuario);
 }

@@ -1,6 +1,6 @@
 package app.fit.dao;
 
-import app.fit.modelos.EjercicioModelo;
+import app.fit.modelos.Ejercicio;
 import java.util.List;
 
 /**
@@ -9,10 +9,10 @@ import java.util.List;
  */
 public interface EjercicioInterface {
     
-    public void agregarEjercicio(EjercicioModelo ejercicio);
-    public void eliminarEjercicio(EjercicioModelo ejercicio);
-    public List<EjercicioModelo> getListaEjercicios();
-    public EjercicioModelo getEjercicio(EjercicioModelo ejercicio);
-    public void setListaEjercicios(List<EjercicioModelo> listaEjercicios);
-    public void actualizaEjercicios(EjercicioModelo ejercicio);
+    public void agregarEjercicio(Ejercicio ejercicio);
+    public void eliminarEjercicio(Ejercicio ejercicio);
+    public List<Ejercicio> getListaEjercicios();
+    public Ejercicio getEjercicio(Ejercicio ejercicio);
+    public void setListaEjercicios(List<Ejercicio> listaEjercicios);
+    public void actualizaEjercicios(Ejercicio ejercicio);
 }

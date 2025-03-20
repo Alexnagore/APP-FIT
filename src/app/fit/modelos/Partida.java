@@ -3,25 +3,25 @@ package app.fit.modelos;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PartidaModelo {
+public class Partida {
     
-    private UsuarioModelo usuario;
-    private List<EntrenamientoModelo> entrenamientos;
+    private Usuario usuario;
+    private List<Entrenamiento> entrenamientos;
     
-    public PartidaModelo (UsuarioModelo usuario) {
+    public Partida (Usuario usuario) {
         this.usuario = usuario;
         this.entrenamientos = new ArrayList();
     }
 
-    public List<EntrenamientoModelo> getEntrenamientos() {
+    public List<Entrenamiento> getEntrenamientos() {
         return entrenamientos;
     }
     
-    public UsuarioModelo getUsuario() {
+    public Usuario getUsuario() {
         return this.usuario;
     }
     
-    public void addEntrenamiento (EntrenamientoModelo entrenamiento) {
+    public void addEntrenamiento (Entrenamiento entrenamiento) {
         this.entrenamientos.add(entrenamiento);
     }
 

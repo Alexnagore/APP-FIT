@@ -1,6 +1,6 @@
 package app.fit.dao;
 
-import app.fit.modelos.EntrenamientoModelo;
+import app.fit.modelos.Entrenamiento;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,39 +9,39 @@ import java.util.List;
  * @author jmeri
  */
 public class EntrenamientoDao implements EntrenamientoInterface {
-    private List<EntrenamientoModelo> listaEntrenamientos;
+    private List<Entrenamiento> listaEntrenamientos;
     
     public EntrenamientoDao(){
        listaEntrenamientos = new ArrayList<>();
     }
     
     @Override
-    public void agregarEntrenamiento(EntrenamientoModelo entrenamiento){
+    public void agregarEntrenamiento(Entrenamiento entrenamiento){
         listaEntrenamientos.add(entrenamiento);
     }
     
     @Override
-    public void eliminarEntrenamiento(EntrenamientoModelo entrenamiento){
+    public void eliminarEntrenamiento(Entrenamiento entrenamiento){
         listaEntrenamientos.remove(listaEntrenamientos.indexOf(entrenamiento));
     }
     
     @Override
-    public List<EntrenamientoModelo> getListaEntrenamientos() {
+    public List<Entrenamiento> getListaEntrenamientos() {
         return listaEntrenamientos;
     }
     
     @Override
-    public EntrenamientoModelo getEntrenamiento(EntrenamientoModelo entrenamiento) {
+    public Entrenamiento getEntrenamiento(Entrenamiento entrenamiento) {
         return listaEntrenamientos.get(listaEntrenamientos.indexOf(entrenamiento));
     }
 
     @Override
-    public void setListaEntrenamientos(List<EntrenamientoModelo> listaEjercicios) {
+    public void setListaEntrenamientos(List<Entrenamiento> listaEjercicios) {
         this.listaEntrenamientos = listaEjercicios;
     }
     
     @Override
-    public void actualizaEntrenamientos(EntrenamientoModelo entrenamiento){
+    public void actualizaEntrenamientos(Entrenamiento entrenamiento){
         listaEntrenamientos.set(listaEntrenamientos.indexOf(entrenamiento), entrenamiento);
     }
 }
