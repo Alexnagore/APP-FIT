@@ -21,6 +21,11 @@ public class EntrenamientoDao implements EntrenamientoInterface {
     }
     
     @Override
+    public void eliminarEntrenamiento(EntrenamientoModelo entrenamiento){
+        listaEntrenamientos.remove(listaEntrenamientos.indexOf(entrenamiento));
+    }
+    
+    @Override
     public List<EntrenamientoModelo> getListaEntrenamientos() {
         return listaEntrenamientos;
     }

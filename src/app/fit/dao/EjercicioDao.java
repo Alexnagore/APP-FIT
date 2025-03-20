@@ -23,6 +23,11 @@ public class EjercicioDao implements EjercicioInterface {
     }
     
     @Override
+    public void eliminarEjercicio(EjercicioModelo ejercicio){
+        listaEjercicios.remove(listaEjercicios.indexOf(ejercicio));
+    }
+    
+    @Override
     public List<EjercicioModelo> getListaEjercicios() {
         return listaEjercicios;
     }

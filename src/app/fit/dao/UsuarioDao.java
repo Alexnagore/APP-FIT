@@ -25,6 +25,11 @@ public class UsuarioDao implements UsuarioInterface{
     }
     
     @Override
+    public void eliminarUsuario(UsuarioModelo usuario){
+        listaUsuarios.remove(listaUsuarios.indexOf(usuario));
+    }
+    
+    @Override
     public List<UsuarioModelo> getListaUsuarios() {
         return listaUsuarios;
     }

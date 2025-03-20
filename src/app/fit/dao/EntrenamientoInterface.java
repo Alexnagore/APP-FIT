@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface EntrenamientoInterface {
     public void agregarEntrenamiento(EntrenamientoModelo entrenamiento);
+    public void eliminarEntrenamiento(EntrenamientoModelo entrenamiento);
     public List<EntrenamientoModelo> getListaEntrenamientos();
     public EntrenamientoModelo getEntrenamiento(EntrenamientoModelo entrenamiento);
     public void setListaEntrenamientos(List<EntrenamientoModelo> listaEntrenamientos);
