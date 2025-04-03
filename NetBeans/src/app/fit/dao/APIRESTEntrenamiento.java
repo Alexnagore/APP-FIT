@@ -1,6 +1,6 @@
 package app.fit.dao;
 
-import app.fit.modelos.Ejercicio;
+import app.fit.modelos.Entrenamiento;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -10,18 +10,16 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import okhttp3.*;
 
+public class APIRESTEntrenamiento implements EntrenamientoInterface {
 
-
-public class APIRESTEjercicio implements EjercicioInterface {
-
-    private final String API_URL = "https://parseapi.back4app.com/classes/Ejercicio";
+    private final String API_URL = "https://parseapi.back4app.com/classes/Entrenamiento";
     private final String APPLICATION_ID ="3W9GkoWV0JU3Wbo4XMHQKThkMbZreQrQTYPXAQ8x";
     private final String REST_API_KEY ="I5VOYj7ZsahchwSf9Po970WMJlGxAtqxpwBFjubu";
-
+    
     @Override
-    public void agregarEjercicio(Ejercicio ejercicio) {
+    public void agregarEntrenamiento(Entrenamiento entrenamiento) {
         Gson gson = new Gson();
-        String jsonEjercicio = gson.toJson(ejercicio);
+        String jsonEjercicio = gson.toJson(entrenamiento);
         try{
             Request request = new Request.Builder()
                     .url(API_URL)
@@ -32,15 +30,14 @@ public class APIRESTEjercicio implements EjercicioInterface {
             OkHttpClient client = new OkHttpClient();
             Response response = client.newCall(request).execute();
             if(response.isSuccessful()) {
-                System.out.println("Ejercicio insertado correctamente");
+                System.out.println("Entrenamiento insertado correctamente");
             }
         } catch (IOException ex) {
             System.out.println("Error: " + ex.getMessage());
-        }
-    }
+        }    }
 
     @Override
-    public void eliminarEjercicio(String objectId) {
+    public void eliminarEntrenamiento(String objectId) {
         try{
             Request request = new Request.Builder()
                     .url(API_URL + "/" + objectId)
@@ -51,7 +48,7 @@ public class APIRESTEjercicio implements EjercicioInterface {
             OkHttpClient client = new OkHttpClient();
             Response response = client.newCall(request).execute();
             if(response.isSuccessful()) {
-                System.out.println("Ejercicio eliminado correctamente");
+                System.out.println("Entrenamiento eliminado correctamente");
             }
         } catch (IOException ex) {
             System.out.println("Error: " + ex.getMessage());
@@ -59,8 +56,8 @@ public class APIRESTEjercicio implements EjercicioInterface {
     }
 
     @Override
-    public ArrayList<Ejercicio> getListaEjercicios() {
-        ArrayList<Ejercicio> ejercicios = new ArrayList<Ejercicio>();
+    public ArrayList<Entrenamiento> getListaEntrenamientos() {
+        ArrayList<Entrenamiento> entrenamientos = new ArrayList<Entrenamiento>();
         try{
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
@@ -76,20 +73,19 @@ public class APIRESTEjercicio implements EjercicioInterface {
                 JsonObject jsonObject = new Gson().fromJson(responseJson, JsonObject.class);
                 JsonArray jonArray = jsonObject.getAsJsonArray("results");
                 Gson gson = new Gson();
-                Type listType = new TypeToken<ArrayList<Ejercicio>>() {
+                Type listType = new TypeToken<ArrayList<Entrenamiento>>() {
                             }.getType();
-                ejercicios = gson.fromJson(jonArray, listType);
+                entrenamientos = gson.fromJson(jonArray, listType);
             }
         } catch (IOException ex) {
             System.out.println("Error: " + ex.getMessage());
         }
         
-        return ejercicios;
-    }
+        return entrenamientos;    }
 
     @Override
-    public Ejercicio getEjercicio(String objectId) {
-        Ejercicio ejercicio = null;
+    public Entrenamiento getEntrenamiento(String objectId) {
+        Entrenamiento entrenamiento = null;
         try {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
@@ -103,30 +99,24 @@ public class APIRESTEjercicio implements EjercicioInterface {
             if(response.isSuccessful()) {
                 String responseJson = response.body().string();
                 Gson gson = new Gson();
-                ejercicio = gson.fromJson(responseJson, Ejercicio.class);
+                entrenamiento = gson.fromJson(responseJson, Entrenamiento.class);
             }
         } catch (IOException ex){
             System.out.println("Error: " + ex.getMessage());
         }
         
-        return ejercicio;
-    }
+        return entrenamiento;    }
 
     @Override
-    public void actualizaEjercicios(Ejercicio ejercicio) {
+    public void actualizaEntrenamientos(Entrenamiento entrenamiento) {
         Gson gson = new Gson();
         try{
-            JsonObject updateEjercicio = new JsonObject();
-            updateEjercicio.addProperty("descripcion", ejercicio.getDescripcion());
-            updateEjercicio.addProperty("puntuacion", ejercicio.getPuntuacion());
-            updateEjercicio.addProperty("tiempo", ejercicio.getTiempo());
-            updateEjercicio.addProperty("puntoInicial", ejercicio.getPuntoInicial().toString());
-            updateEjercicio.addProperty("puntoFinal", ejercicio.getPuntoFinal().toString());
-            updateEjercicio.addProperty("numRepeticiones", ejercicio.getNumRepeticiones());
-            String json = gson.toJson(updateEjercicio);
+            JsonObject updateEntrenamiento = new JsonObject();
+            updateEntrenamiento.addProperty("ejercicios", entrenamiento.getEjercicios());
+            String json = gson.toJson(updateEntrenamiento);
             RequestBody body = RequestBody.create(MediaType.parse("application/json"), json);
             Request request = new Request.Builder()
-                    .url(API_URL + "/" + ejercicio.getObjectId())
+                    .url(API_URL + "/" + entrenamiento.getObjectId())
                     .addHeader("X-Parse-Application-Id", APPLICATION_ID)
                     .addHeader("X-Parse-REST-API-Key", REST_API_KEY)
                     .addHeader("Content-Type", "application/json")
@@ -135,7 +125,7 @@ public class APIRESTEjercicio implements EjercicioInterface {
             OkHttpClient client = new OkHttpClient();
             Response response = client.newCall(request).execute();
             if(response.isSuccessful()) {
-                System.out.println("Ejercicio actualizado correctamente");
+                System.out.println("Entrenamiento actualizado correctamente");
             }
         } catch (IOException ex) {
             System.out.println("Error: " + ex.getMessage());

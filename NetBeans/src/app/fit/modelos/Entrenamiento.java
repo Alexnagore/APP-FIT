@@ -5,10 +5,15 @@ import java.util.List;
 
 public class Entrenamiento {
     
+    private String idObjeto;
     private List<Ejercicio> ejercicios; 
     
     public Entrenamiento () {
         this.ejercicios = new ArrayList<>();
+    }
+
+    public Entrenamiento(String idObjeto) {
+        this.idObjeto = idObjeto;
     }
 
     public List<Ejercicio> getEjercicios() {
@@ -34,6 +39,10 @@ public class Entrenamiento {
     @Override
     public String toString() {
         return "Entrenamiento{" + "ejercicios=" + ejercicios.toString() + '}';
+    }
+
+    public Object getObjectId() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

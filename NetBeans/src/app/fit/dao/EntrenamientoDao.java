@@ -21,8 +21,12 @@ public class EntrenamientoDao implements EntrenamientoInterface {
     }
     
     @Override
-    public void eliminarEntrenamiento(Entrenamiento entrenamiento){
-        listaEntrenamientos.remove(listaEntrenamientos.indexOf(entrenamiento));
+    public void eliminarEntrenamiento(String objectId){
+        for (Entrenamiento entrenamiento : listaEntrenamientos) {
+            if (entrenamiento.getObjectId().equals(objectId)) {
+                listaEntrenamientos.remove(entrenamiento);
+            }
+        }
     }
     
     @Override
@@ -31,13 +35,13 @@ public class EntrenamientoDao implements EntrenamientoInterface {
     }
     
     @Override
-    public Entrenamiento getEntrenamiento(Entrenamiento entrenamiento) {
-        return listaEntrenamientos.get(listaEntrenamientos.indexOf(entrenamiento));
-    }
-
-    @Override
-    public void setListaEntrenamientos(List<Entrenamiento> listaEjercicios) {
-        this.listaEntrenamientos = listaEjercicios;
+    public Entrenamiento getEntrenamiento(String objectId) {
+        for (Entrenamiento entrenamiento : listaEntrenamientos) {
+            if (entrenamiento.getObjectId().equals(objectId)) {
+                return entrenamiento;
+            }
+        }
+        return new Entrenamiento("-1");
     }
     
     @Override
