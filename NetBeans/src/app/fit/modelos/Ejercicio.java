@@ -2,12 +2,16 @@ package app.fit.modelos;
 
 public class Ejercicio {
     private String objectId;
-    private final String descripcion;
-    private final int puntuacion;
-    private final int tiempo;
+    private String descripcion;
+    private int puntuacion;
+    private int tiempo;
     private Localizacion puntoInicial;
     private Localizacion puntoFinal;
     private int numRepeticiones;
+
+    public Ejercicio(String objectId) {
+        this.objectId = objectId;
+    }
 
     public Ejercicio(String descripcion, int puntuacion, int tiempo, Localizacion puntoInicial, Localizacion puntoFinal) {
         this.descripcion = descripcion;

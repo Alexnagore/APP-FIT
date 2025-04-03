@@ -10,7 +10,6 @@ import app.fit.modelos.Entrenamiento;
 import app.fit.modelos.Localizacion;
 import app.fit.modelos.Partida;
 import app.fit.modelos.Usuario;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,10 +17,10 @@ import java.util.List;
  * @author alumno
  */
 public class AppControlador {
-    private EjercicioDao ejercicios;
-    private EntrenamientoDao entrenamientos;
-    private UsuarioDao inventarioUsuario;
-    private Partida partida;
+    private final EjercicioDao ejercicios;
+    private final EntrenamientoDao entrenamientos;
+    private final UsuarioDao inventarioUsuario;
+    private final Partida partida;
     //implementación de vistas si es necesaris
 /*
     private TiendaVista vista;

@@ -34,5 +34,12 @@ public class Localizacion {
     public void setAltitud(double altitud) {
         this.altitud = altitud;
     }
+
+    @Override
+    public String toString() {
+        return "Localizacion{" + "latitud=" + latitud + ", longitud=" + longitud + ", altitud=" + altitud + '}';
+    }
+    
+    
     
 }

@@ -26,3 +26,5 @@ replay_pid*
 /dist/
 /build/
 /NetBeans/nbproject/private/
+/NetBeans/build/
+/NetBeans/dist/

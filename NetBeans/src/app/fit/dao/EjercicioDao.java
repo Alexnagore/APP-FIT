@@ -23,8 +23,12 @@ public class EjercicioDao implements EjercicioInterface {
     }
     
     @Override
-    public void eliminarEjercicio(Ejercicio ejercicio){
-        listaEjercicios.remove(listaEjercicios.indexOf(ejercicio));
+    public void eliminarEjercicio(String objectId){
+        for (Ejercicio ejercicio : listaEjercicios) {
+            if (ejercicio.getObjectId().equals(objectId)) {
+                listaEjercicios.remove(ejercicio);
+            }
+        }
     }
     
     @Override
@@ -33,13 +37,13 @@ public class EjercicioDao implements EjercicioInterface {
     }
     
     @Override
-    public Ejercicio getEjercicio(Ejercicio ejercicio) {
-        return listaEjercicios.get(listaEjercicios.indexOf(ejercicio));
-    }
-
-    @Override
-    public void setListaEjercicios(List<Ejercicio> listaEjercicios) {
-        this.listaEjercicios = listaEjercicios;
+    public Ejercicio getEjercicio(String objectId) {
+        for (Ejercicio ejercicio : listaEjercicios) {
+            if (ejercicio.getObjectId().equals(objectId)) {
+                return ejercicio;
+            }
+        }
+        return new Ejercicio("-1");
     }
     
     @Override
