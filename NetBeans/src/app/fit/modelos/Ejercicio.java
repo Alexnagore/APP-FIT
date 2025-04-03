@@ -1,7 +1,7 @@
 package app.fit.modelos;
 
 public class Ejercicio {
-    
+    private String objectId;
     private final String descripcion;
     private final int puntuacion;
     private final int tiempo;
@@ -22,6 +22,10 @@ public class Ejercicio {
         this.puntuacion = puntuacion;
         this.tiempo = tiempo;
         this.numRepeticiones = numRepeticiones;
+    }
+
+    public String getObjectId() {
+        return objectId;
     }
 
     public String getDescripcion() {
