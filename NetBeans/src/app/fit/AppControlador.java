@@ -50,8 +50,7 @@ public class AppControlador {
         ej3.setDescripcion("Desc cambiada");
         ejercicios.actualizaEjercicio(ej3);
         
-        ejercicios.eliminarEjercicio("5HRL0bRGq9");
-        
+        ejercicios.eliminarEjercicio("OB1dCc1g89");
         
         Entrenamiento en1 = new Entrenamiento();
         en1.agregarEjercicio(ej1);
@@ -64,6 +63,12 @@ public class AppControlador {
 
         entrenamientos.agregarEntrenamiento(en1);
         entrenamientos.agregarEntrenamiento(en2);
+        
+        en1.eliminarEjercicio(ej1);
+        
+        en1.setObjectId("ydbSBz2XUv");
+        
+        entrenamientos.actualizaEntrenamientos(en1);
         
         Usuario usuario1 = new Usuario("Martin", "Orenes", "mo@hotmail.com", "cont");
         Usuario usuario2 = new Usuario("Javier", "Merino", "jm@hotmail.com", "contr");
@@ -102,10 +107,11 @@ public class AppControlador {
         }
 
         System.out.println("---- Listado de Entrenamientos ----");
-        for (Entrenamiento en : listarEntrenamientos()) {
-            System.out.println(en);
+        ArrayList<Entrenamiento> listaEntrenamientos =new ArrayList<Entrenamiento>();
+        listaEntrenamientos = this.entrenamientos.getListaEntrenamientos();
+        for (Entrenamiento entrenamiento : listaEntrenamientos) {
+            System.out.println(entrenamiento);
         }
-        //System.out.println("Obtener Entrenamiento en índice 0: " + obtenerEntrenamiento(0));
 
         System.out.println("---- Listado de Usuarios ----");
         for (Usuario u : listarUsuarios()) {

@@ -110,9 +110,10 @@ public class APIRESTEntrenamiento implements EntrenamientoInterface {
     @Override
     public void actualizaEntrenamientos(Entrenamiento entrenamiento) {
         Gson gson = new Gson();
+        System.out.println("Entrenamiento ID: " + entrenamiento.getObjectId());
         try{
             JsonObject updateEntrenamiento = new JsonObject();
-            updateEntrenamiento.addProperty("ejercicios", (Number) entrenamiento.getEjercicios());
+            updateEntrenamiento.add("ejercicios", gson.toJsonTree(entrenamiento.getEjercicios()));
             String json = gson.toJson(updateEntrenamiento);
             RequestBody body = RequestBody.create(MediaType.parse("application/json"), json);
             Request request = new Request.Builder()
@@ -126,6 +127,9 @@ public class APIRESTEntrenamiento implements EntrenamientoInterface {
             Response response = client.newCall(request).execute();
             if(response.isSuccessful()) {
                 System.out.println("Entrenamiento actualizado correctamente");
+            }
+            else {
+                System.out.println("Fallo en la actuaizacion. Code: " + response.code() + ". Mess: " + response.toString());
             }
         } catch (IOException ex) {
             System.out.println("Error: " + ex.getMessage());

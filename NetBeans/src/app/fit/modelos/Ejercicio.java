@@ -40,40 +40,59 @@ public class Ejercicio {
     public String getObjectId() {
         return objectId;
     }
+    
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
 
     public String getDescripcion() {
         return descripcion;
+    }
+    
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public int getPuntuacion() {
         return puntuacion;
     }
+    
+    public void setPuntuacion(int puntuacion) {
+        this.puntuacion = puntuacion;
+    }
 
     public int getTiempo() {
         return tiempo;
     }
+    
+    public void setTiempo(int tiempo) {
+        this.tiempo = tiempo;
+    }
 
     public Localizacion getPuntoInicial() {
         return puntoInicial;
+    }
+    
+    public void setPuntoInicial(Localizacion puntoInicial) {
+        this.puntoInicial = puntoInicial;
     }
 
     public Localizacion getPuntoFinal() {
         return puntoFinal;
     }
 
+    public void setPuntoFinal(Localizacion puntoFinal) {
+        this.puntoFinal = puntoFinal;
+    }
+
     public int getNumRepeticiones() {
         return numRepeticiones;
-    }
+    } 
 
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setNumRepeticiones(int numRepeticiones) {
+        this.numRepeticiones = numRepeticiones;
     }
     
-
     @Override
     public String toString() {
         return "Ejercicio{" + "descripcion=" + descripcion + ", puntuacion=" + puntuacion + ", tiempo=" + tiempo + ", puntoInicial=" + puntoInicial + ", puntoFinal=" + puntoFinal + ", numRepeticiones=" + numRepeticiones + '}';
