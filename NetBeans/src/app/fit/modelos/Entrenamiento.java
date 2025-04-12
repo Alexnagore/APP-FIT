@@ -6,6 +6,7 @@ import java.util.List;
 public class Entrenamiento {
     
     private String objectId;
+    private String nombre;
     private List<Ejercicio> ejercicios; 
     
     public Entrenamiento () {
@@ -54,5 +55,15 @@ public class Entrenamiento {
     public String toString() {
         return "Entrenamiento{" + "ejercicios=" + ejercicios.toString() + '}';
     }
+
+    public void setNombre(String nombreEntrenamiento) {
+        this.nombre = nombreEntrenamiento;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+    
+    
     
 }

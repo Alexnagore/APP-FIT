@@ -10,8 +10,15 @@ import app.fit.modelos.Entrenamiento;
 import app.fit.modelos.Localizacion;
 import app.fit.modelos.Partida;
 import app.fit.modelos.Usuario;
+import app.fit.vistas.CrearEntrenamientoVista;
+import app.fit.vistas.EntrenamientosVista;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,73 +27,97 @@ import java.util.List;
 public class AppControlador {
     private final APIRESTEjercicio ejercicios;
     private final APIRESTEntrenamiento entrenamientos;
-    private final UsuarioDao inventarioUsuario;
-    private final Partida partida;
-    //implementación de vistas si es necesaris
-/*
-    private TiendaVista vista;
-    private InventarioLibrosVista inventarioVista;
-    private DirectorioProveedoresVista listaProveedoresVista;
-    private ProveedorVista proveedorVista;
-*/
+    private final APIRESTUsuario inventarioUsuario;
+    private List<Entrenamiento> listaEntrenamientos;
+    private EntrenamientosVista vista;
     
     public AppControlador(){
         ejercicios = new APIRESTEjercicio();
         entrenamientos = new APIRESTEntrenamiento();
-        inventarioUsuario = new UsuarioDao();
+        inventarioUsuario = new APIRESTUsuario();
+        listaEntrenamientos = entrenamientos.getListaEntrenamientos();
+       
+        vista = new EntrenamientosVista();
         
-        Localizacion puntoInicial = new Localizacion(13.2,16.2,152.2);
-        Localizacion puntoFinal = new Localizacion(19.2,20.2,158.2);
-        // Inicializar con algunos libros
-        Ejercicio ej1 = new Ejercicio("ej1", 1000, 13, puntoInicial,puntoFinal);
-        Ejercicio ej2 = new Ejercicio("ej2", 2000, 50, puntoInicial,puntoFinal);
-        Ejercicio ej3 = new Ejercicio("ej3", 3000, 20, puntoInicial,puntoFinal);
+        for (Entrenamiento entrenamiento: listaEntrenamientos) {
+            vista.getEntrenamientosComboBox().addItem(entrenamiento.getObjectId());
+        }
+        
+        vista.getAgregarEntrenamientoButton().addActionListener((ActionEvent e) -> {
+            abrirVentanaCrearEntrenamiento();
+        });
+        
+        vista.getEntrenamientosComboBox().addItemListener((ItemEvent e) -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                actualizarVistaEntrenameintos();
+            }
+        });
+        
+        vista.setVisible(true);
 
-        ejercicios.agregarEjercicio(ej1);
-        ejercicios.agregarEjercicio(ej2);
-        ejercicios.agregarEjercicio(ej3);
-        
-        ej3.setObjectId("xbkqm8JV4g");
-        ej3.setDescripcion("Desc cambiada");
-        ejercicios.actualizaEjercicio(ej3);
-        
-        ejercicios.eliminarEjercicio("OB1dCc1g89");
-        
-        Entrenamiento en1 = new Entrenamiento();
-        en1.agregarEjercicio(ej1);
-        en1.agregarEjercicio(ej2);
-        en1.agregarEjercicio(ej3);
-
-        Entrenamiento en2 = new Entrenamiento();
-        en2.agregarEjercicio(ej3);
-        en2.agregarEjercicio(ej2);
-
-        entrenamientos.agregarEntrenamiento(en1);
-        entrenamientos.agregarEntrenamiento(en2);
-        
-        en1.eliminarEjercicio(ej1);
-        
-        en1.setObjectId("ydbSBz2XUv");
-        
-        entrenamientos.actualizaEntrenamientos(en1);
-        
-        Usuario usuario1 = new Usuario("Martin", "Orenes", "mo@hotmail.com", "cont");
-        Usuario usuario2 = new Usuario("Javier", "Merino", "jm@hotmail.com", "contr");
-        Usuario usuario3 = new Usuario("Alex", "Nagore", "an@hotmail.com", "contra");
-        
-        inventarioUsuario.agregarUsuario(usuario1);
-        inventarioUsuario.agregarUsuario(usuario2);
-        inventarioUsuario.agregarUsuario(usuario3);
-        
-        partida = new Partida(usuario1);
-        partida.addEntrenamiento(en2);
-        
-        completarPartida(partida);
-    
-        
-        probarMetodosDAO();
     }
     
+    private void actualizarVistaEntrenameintos() {
+        String selectedObjectId = (String) vista.getEntrenamientosComboBox().getSelectedItem();
+        
+        System.out.println(selectedObjectId);
+        if (selectedObjectId == null) return;
+        
+        Entrenamiento seleccionado = null;
+        for (Entrenamiento entrenamiento : listaEntrenamientos) {
+            if (entrenamiento.getObjectId().equals(selectedObjectId)) {
+                seleccionado = entrenamiento;
+                break;
+            }
+        }
+        
+        if (seleccionado != null) {
+            StringBuilder sb = new StringBuilder();
+            for (Ejercicio ejercicio : seleccionado.getEjercicios()) {
+                sb.append(ejercicio.toString()).append("\n");
+                System.out.println(ejercicio.toString());
+            }
+            vista.getEjercicioArea().setText(sb.toString());
+        } else {
+            vista.getEjercicioArea().setText("Entrenamientos no encontrado");
+        }
+    }
+    
+    private void abrirVentanaCrearEntrenamiento() {
+        CrearEntrenamientoVista crearVista = new CrearEntrenamientoVista(ejercicios.getListaEjercicios());
+        
+        crearVista.getGuardarButton().addActionListener((ActionEvent e) -> {
+            String nombreEntrenamiento = crearVista.getNombreEntrenamiento();
+            List<JCheckBox> checkBoxes = crearVista.getEjerciciosSeleccionados();
+            
+            if (nombreEntrenamiento.isEmpty()) {
+                JOptionPane.showMessageDialog(crearVista, "Por favor, ingresa un nombre para el entrenamiento.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            Entrenamiento nuevoEntrenamiento = new Entrenamiento();
+            nuevoEntrenamiento.setNombre(nombreEntrenamiento);
+            
+            for (JCheckBox checkBox : checkBoxes) {
+                if (checkBox.isSelected()) {
+                    String ejercicioId = checkBox.getActionCommand();
+                    Ejercicio ejercicioSeleccionado = ejercicios.getEjercicio(ejercicioId);
+                    nuevoEntrenamiento.agregarEjercicio(ejercicioSeleccionado);
+                }
+            }
+            
+            String id = entrenamientos.agregarEntrenamiento(nuevoEntrenamiento);
+            nuevoEntrenamiento.setObjectId(id);
+            listaEntrenamientos.add(nuevoEntrenamiento);
+            
+            vista.getEntrenamientosComboBox().addItem(id);
+            
+            crearVista.dispose();
+        });
+        
+        crearVista.setVisible(true);
+        
+    }
    
     private void completarPartida(Partida partida){
         
@@ -95,6 +126,8 @@ public class AppControlador {
             partida.getUsuario().incrementarEntrenamientosCompletados();
         }
     }
+    
+    
     
     
     

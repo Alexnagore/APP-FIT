@@ -17,7 +17,8 @@ public class APIRESTEntrenamiento implements EntrenamientoInterface {
     private final String REST_API_KEY ="I5VOYj7ZsahchwSf9Po970WMJlGxAtqxpwBFjubu";
     
     @Override
-    public void agregarEntrenamiento(Entrenamiento entrenamiento) {
+    public String agregarEntrenamiento(Entrenamiento entrenamiento) {
+        String objectId = "";
         Gson gson = new Gson();
         String jsonEjercicio = gson.toJson(entrenamiento);
         try{
@@ -31,10 +32,14 @@ public class APIRESTEntrenamiento implements EntrenamientoInterface {
             Response response = client.newCall(request).execute();
             if(response.isSuccessful()) {
                 System.out.println("Entrenamiento insertado correctamente");
+                Entrenamiento newEntrenamiento = gson.fromJson(response.body().string(), Entrenamiento.class);
+                objectId = newEntrenamiento.getObjectId();
             }
         } catch (IOException ex) {
             System.out.println("Error: " + ex.getMessage());
-        }    }
+        }
+        return objectId;
+    }
 
     @Override
     public void eliminarEntrenamiento(String objectId) {

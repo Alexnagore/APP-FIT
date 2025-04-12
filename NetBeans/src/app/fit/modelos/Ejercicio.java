@@ -95,7 +95,23 @@ public class Ejercicio {
     
     @Override
     public String toString() {
-        return "Ejercicio{" + "descripcion=" + descripcion + ", puntuacion=" + puntuacion + ", tiempo=" + tiempo + ", puntoInicial=" + puntoInicial + ", puntoFinal=" + puntoFinal + ", numRepeticiones=" + numRepeticiones + '}';
+        return String.format(
+            "Ejercicio: %s\n" +
+            "-----------------------\n" +
+            "Descripcion: %s\n" +
+            "Puntuacion: %d\n" +
+            "Tiempo: %d\n" +
+            "Repeticiones: %d\n" +
+            "Ubicación Inicial: %s\n" +
+            "Ubicación Final: %s\n",
+            objectId,
+            descripcion,
+            puntuacion,
+            tiempo,
+            numRepeticiones,
+            (puntoInicial != null ? puntoInicial.toString() : "No especificado"),
+            (puntoFinal != null ? puntoFinal.toString() : "No especificado")
+        );
     }
     
     

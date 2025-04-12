@@ -8,7 +8,7 @@ import java.util.List;
  * @author jmeri
  */
 public interface EntrenamientoInterface {
-    public void agregarEntrenamiento(Entrenamiento entrenamiento);
+    public String agregarEntrenamiento(Entrenamiento entrenamiento);
     public void eliminarEntrenamiento(String objectId);
     public List<Entrenamiento> getListaEntrenamientos();
     public Entrenamiento getEntrenamiento(String objectId);
