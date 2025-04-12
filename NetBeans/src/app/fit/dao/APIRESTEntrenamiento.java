@@ -112,7 +112,7 @@ public class APIRESTEntrenamiento implements EntrenamientoInterface {
         Gson gson = new Gson();
         try{
             JsonObject updateEntrenamiento = new JsonObject();
-            updateEntrenamiento.addProperty("ejercicios", entrenamiento.getEjercicios());
+            updateEntrenamiento.addProperty("ejercicios", (Number) entrenamiento.getEjercicios());
             String json = gson.toJson(updateEntrenamiento);
             RequestBody body = RequestBody.create(MediaType.parse("application/json"), json);
             Request request = new Request.Builder()

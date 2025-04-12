@@ -47,7 +47,7 @@ public class EjercicioDao implements EjercicioInterface {
     }
     
     @Override
-    public void actualizaEjercicios(Ejercicio ejercicio){
+    public void actualizaEjercicio(Ejercicio ejercicio){
         listaEjercicios.set(listaEjercicios.indexOf(ejercicio), ejercicio);
     }
 }

@@ -18,6 +18,10 @@ public class APIRESTEjercicio implements EjercicioInterface {
     private final String APPLICATION_ID ="3W9GkoWV0JU3Wbo4XMHQKThkMbZreQrQTYPXAQ8x";
     private final String REST_API_KEY ="I5VOYj7ZsahchwSf9Po970WMJlGxAtqxpwBFjubu";
 
+    public APIRESTEjercicio() {
+    }
+
+    
     @Override
     public void agregarEjercicio(Ejercicio ejercicio) {
         Gson gson = new Gson();
@@ -113,16 +117,16 @@ public class APIRESTEjercicio implements EjercicioInterface {
     }
 
     @Override
-    public void actualizaEjercicios(Ejercicio ejercicio) {
+    public void actualizaEjercicio(Ejercicio ejercicio) {
         Gson gson = new Gson();
         try{
             JsonObject updateEjercicio = new JsonObject();
             updateEjercicio.addProperty("descripcion", ejercicio.getDescripcion());
-            updateEjercicio.addProperty("puntuacion", ejercicio.getPuntuacion());
-            updateEjercicio.addProperty("tiempo", ejercicio.getTiempo());
-            updateEjercicio.addProperty("puntoInicial", ejercicio.getPuntoInicial().toString());
-            updateEjercicio.addProperty("puntoFinal", ejercicio.getPuntoFinal().toString());
+            updateEjercicio.add("puntoInicial", gson.toJsonTree(ejercicio.getPuntoInicial()));
+            updateEjercicio.add("puntoFinal", gson.toJsonTree(ejercicio.getPuntoFinal()));
             updateEjercicio.addProperty("numRepeticiones", ejercicio.getNumRepeticiones());
+            updateEjercicio.addProperty("tiempo", ejercicio.getTiempo());
+            updateEjercicio.addProperty("puntuacion", ejercicio.getPuntuacion());
             String json = gson.toJson(updateEjercicio);
             RequestBody body = RequestBody.create(MediaType.parse("application/json"), json);
             Request request = new Request.Builder()
@@ -136,6 +140,9 @@ public class APIRESTEjercicio implements EjercicioInterface {
             Response response = client.newCall(request).execute();
             if(response.isSuccessful()) {
                 System.out.println("Ejercicio actualizado correctamente");
+            }
+            else {
+                System.out.println("Fallo en la actuaizacion. Code: " + response.code() + ". Mess: " + response.toString());
             }
         } catch (IOException ex) {
             System.out.println("Error: " + ex.getMessage());

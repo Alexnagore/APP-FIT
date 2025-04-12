@@ -13,5 +13,5 @@ public interface EjercicioInterface {
     public void eliminarEjercicio(String objectId);
     public List<Ejercicio> getListaEjercicios();
     public Ejercicio getEjercicio(String objectId);
-    public void actualizaEjercicios(Ejercicio ejercicio);
+    public void actualizaEjercicio(Ejercicio ejercicio);
 }

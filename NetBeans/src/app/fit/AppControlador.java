@@ -10,6 +10,7 @@ import app.fit.modelos.Entrenamiento;
 import app.fit.modelos.Localizacion;
 import app.fit.modelos.Partida;
 import app.fit.modelos.Usuario;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,8 +18,8 @@ import java.util.List;
  * @author alumno
  */
 public class AppControlador {
-    private final EjercicioDao ejercicios;
-    private final EntrenamientoDao entrenamientos;
+    private final APIRESTEjercicio ejercicios;
+    private final APIRESTEntrenamiento entrenamientos;
     private final UsuarioDao inventarioUsuario;
     private final Partida partida;
     //implementación de vistas si es necesaris
@@ -30,8 +31,8 @@ public class AppControlador {
 */
     
     public AppControlador(){
-        ejercicios = new EjercicioDao();
-        entrenamientos = new EntrenamientoDao();
+        ejercicios = new APIRESTEjercicio();
+        entrenamientos = new APIRESTEntrenamiento();
         inventarioUsuario = new UsuarioDao();
         
         Localizacion puntoInicial = new Localizacion(13.2,16.2,152.2);
@@ -45,11 +46,17 @@ public class AppControlador {
         ejercicios.agregarEjercicio(ej2);
         ejercicios.agregarEjercicio(ej3);
         
-
-        // Inicializar con algunos proveedores
+        ej3.setObjectId("xbkqm8JV4g");
+        ej3.setDescripcion("Desc cambiada");
+        ejercicios.actualizaEjercicio(ej3);
+        
+        ejercicios.eliminarEjercicio("5HRL0bRGq9");
+        
+        
         Entrenamiento en1 = new Entrenamiento();
         en1.agregarEjercicio(ej1);
         en1.agregarEjercicio(ej2);
+        en1.agregarEjercicio(ej3);
 
         Entrenamiento en2 = new Entrenamiento();
         en2.agregarEjercicio(ej3);
@@ -88,10 +95,11 @@ public class AppControlador {
     
     private void probarMetodosDAO() {
         System.out.println("---- Listado de Ejercicios ----");
-        for (Ejercicio e : listarEjercicios()) {
+        ArrayList<Ejercicio> listaEjercicios = new ArrayList<Ejercicio>();
+        listaEjercicios = this.ejercicios.getListaEjercicios();
+        for (Ejercicio e : listaEjercicios) {
             System.out.println(e);
         }
-       // System.out.println("Obtener Ejercicio en índice 1: " + obtenerEjercicio(1));
 
         System.out.println("---- Listado de Entrenamientos ----");
         for (Entrenamiento en : listarEntrenamientos()) {
