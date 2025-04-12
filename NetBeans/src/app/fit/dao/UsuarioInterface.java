@@ -13,9 +13,8 @@ import java.util.List;
  */
 public interface UsuarioInterface {
     public void agregarUsuario(Usuario usuario);
-    public void eliminarUsuario(Usuario usuario);
+    public void eliminarUsuario(String objectId);
     public List<Usuario> getListaUsuarios();
-    public Usuario getUsuario(Usuario usuario);
-    public void setListaUsuarios(List<Usuario> listaUsuarios);
-    public void actualizaUsuarios(Usuario usuario);
+    public Usuario getUsuario(String objectId);
+    public void actualizaUsuario(Usuario usuario);
 }
