@@ -19,11 +19,11 @@ import javax.swing.JTextArea;
  * @author User
  */
 public class EntrenamientosVista extends JFrame {
-    private JComboBox<String> entrenamientosComboBox;
-    private JButton agregarEntrenamientoButton;
-    private JTextArea ejercicioArea;
-    private JButton ejercicioButton;
-    private JButton usuarioButton;
+    private final JComboBox<String> entrenamientosComboBox;
+    private final JButton agregarEntrenamientoButton;
+    private final JTextArea ejercicioArea;
+    private final JButton ejercicioButton;
+    private final JButton usuarioButton;
     
     public EntrenamientosVista() {
         setTitle("Entrenemientos");

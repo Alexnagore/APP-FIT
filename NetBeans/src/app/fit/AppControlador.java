@@ -7,13 +7,12 @@ package app.fit;
 import app.fit.dao.*;
 import app.fit.modelos.Ejercicio;
 import app.fit.modelos.Entrenamiento;
-import app.fit.modelos.Localizacion;
 import app.fit.modelos.Partida;
 import app.fit.modelos.Usuario;
 import app.fit.vistas.CrearEntrenamientoVista;
 import app.fit.vistas.EntrenamientosVista;
+import app.fit.vistas.EjerciciosVista;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,37 +27,60 @@ public class AppControlador {
     private final APIRESTEjercicio ejercicios;
     private final APIRESTEntrenamiento entrenamientos;
     private final APIRESTUsuario inventarioUsuario;
+    private List<Ejercicio> listaEjercicios;
     private List<Entrenamiento> listaEntrenamientos;
-    private EntrenamientosVista vista;
+    private EntrenamientosVista vistaEntrenamientos;
+    private EjerciciosVista vistaEjercicios;
     
     public AppControlador(){
         ejercicios = new APIRESTEjercicio();
         entrenamientos = new APIRESTEntrenamiento();
         inventarioUsuario = new APIRESTUsuario();
+        listaEjercicios = ejercicios.getListaEjercicios();
         listaEntrenamientos = entrenamientos.getListaEntrenamientos();
        
-        vista = new EntrenamientosVista();
+        vistaEntrenamientos = new EntrenamientosVista();
         
         for (Entrenamiento entrenamiento: listaEntrenamientos) {
-            vista.getEntrenamientosComboBox().addItem(entrenamiento.getObjectId());
+            vistaEntrenamientos.getEntrenamientosComboBox().addItem(entrenamiento.getObjectId());
         }
         
-        vista.getAgregarEntrenamientoButton().addActionListener((ActionEvent e) -> {
+        vistaEntrenamientos.getAgregarEntrenamientoButton().addActionListener((ActionEvent e) -> {
             abrirVentanaCrearEntrenamiento();
+            vistaEntrenamientos.setVisible(false);
         });
         
-        vista.getEntrenamientosComboBox().addItemListener((ItemEvent e) -> {
+        vistaEntrenamientos.getEntrenamientosComboBox().addItemListener((ItemEvent e) -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 actualizarVistaEntrenameintos();
             }
         });
         
-        vista.setVisible(true);
+        vistaEntrenamientos.getEjercicioButton().addActionListener((ActionEvent e) -> {
+            vistaEjercicios.setVisible(true);
+            vistaEntrenamientos.setVisible(false);
+        });
+        
+        vistaEntrenamientos.getUsuarioButton().addActionListener((ActionEvent e) -> {});
+        
+        
+        vistaEjercicios = new EjerciciosVista();
+        
+        for (Ejercicio ejercicio: listaEjercicios) {
+            vistaEjercicios.getEjerciciosComboBox().addItem(ejercicio.getObjectId());
+        }
+        
+        vistaEjercicios.getVolverButton().addActionListener((ActionEvent e) -> {
+            vistaEjercicios.setVisible(false);
+            vistaEntrenamientos.setVisible(true);
+        });
+        
+        vistaEntrenamientos.setVisible(true);
 
     }
     
     private void actualizarVistaEntrenameintos() {
-        String selectedObjectId = (String) vista.getEntrenamientosComboBox().getSelectedItem();
+        String selectedObjectId = (String) vistaEntrenamientos.getEntrenamientosComboBox().getSelectedItem();
         
         System.out.println(selectedObjectId);
         if (selectedObjectId == null) return;
@@ -77,9 +99,9 @@ public class AppControlador {
                 sb.append(ejercicio.toString()).append("\n");
                 System.out.println(ejercicio.toString());
             }
-            vista.getEjercicioArea().setText(sb.toString());
+            vistaEntrenamientos.getEjercicioArea().setText(sb.toString());
         } else {
-            vista.getEjercicioArea().setText("Entrenamientos no encontrado");
+            vistaEntrenamientos.getEjercicioArea().setText("Entrenamientos no encontrado");
         }
     }
     
@@ -110,13 +132,18 @@ public class AppControlador {
             nuevoEntrenamiento.setObjectId(id);
             listaEntrenamientos.add(nuevoEntrenamiento);
             
-            vista.getEntrenamientosComboBox().addItem(id);
+            vistaEntrenamientos.getEntrenamientosComboBox().addItem(id);
             
             crearVista.dispose();
+            vistaEntrenamientos.setVisible(true);
         });
         
         crearVista.setVisible(true);
         
+    }
+    
+    private void abrirVentanaCrearEjercicio() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
    
     private void completarPartida(Partida partida){
@@ -183,4 +210,6 @@ public class AppControlador {
         return inventarioUsuario.getUsuario(indice);
     }
 */
+
+    
 }
