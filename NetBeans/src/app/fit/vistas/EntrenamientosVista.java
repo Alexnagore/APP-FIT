@@ -5,7 +5,9 @@
 package app.fit.vistas;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -26,8 +28,12 @@ public class EntrenamientosVista extends JFrame {
     private final JButton usuarioButton;
     
     public EntrenamientosVista() {
+        
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        
         setTitle("Entrenemientos");
-        setSize(600, 300);
+        setSize(600, screenHeight-40);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 

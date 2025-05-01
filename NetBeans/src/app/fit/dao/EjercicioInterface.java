@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface EjercicioInterface {
     
-    public void agregarEjercicio(Ejercicio ejercicio);
+    public String agregarEjercicio(Ejercicio ejercicio);
     public void eliminarEjercicio(String objectId);
     public List<Ejercicio> getListaEjercicios();
     public Ejercicio getEjercicio(String objectId);

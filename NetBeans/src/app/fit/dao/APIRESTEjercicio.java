@@ -15,15 +15,16 @@ import okhttp3.*;
 public class APIRESTEjercicio implements EjercicioInterface {
 
     private final String API_URL = "https://parseapi.back4app.com/classes/Ejercicio";
-    private final String APPLICATION_ID ="3W9GkoWV0JU3Wbo4XMHQKThkMbZreQrQTYPXAQ8x";
-    private final String REST_API_KEY ="I5VOYj7ZsahchwSf9Po970WMJlGxAtqxpwBFjubu";
+    private final String APPLICATION_ID ="IYenyQCIaDzxFOHg1VOrfylNtpXD8Ayq4FXbjkmF";
+    private final String REST_API_KEY ="dNuBWXVk7SFzoOZhJNfyV5pxOeUCDFzSuoENa396";
 
     public APIRESTEjercicio() {
     }
 
     
     @Override
-    public void agregarEjercicio(Ejercicio ejercicio) {
+    public String agregarEjercicio(Ejercicio ejercicio) {
+        String objectId = "";
         Gson gson = new Gson();
         String jsonEjercicio = gson.toJson(ejercicio);
         try{
@@ -37,10 +38,13 @@ public class APIRESTEjercicio implements EjercicioInterface {
             Response response = client.newCall(request).execute();
             if(response.isSuccessful()) {
                 System.out.println("Ejercicio insertado correctamente");
+                Ejercicio newEjercicio = gson.fromJson(response.body().string(), Ejercicio.class);
+                objectId = newEjercicio.getObjectId();
             }
         } catch (IOException ex) {
             System.out.println("Error: " + ex.getMessage());
         }
+        return objectId;
     }
 
     @Override
@@ -121,7 +125,7 @@ public class APIRESTEjercicio implements EjercicioInterface {
         Gson gson = new Gson();
         try{
             JsonObject updateEjercicio = new JsonObject();
-            updateEjercicio.addProperty("descripcion", ejercicio.getDescripcion());
+            updateEjercicio.addProperty("nombre", ejercicio.getNombre());
             updateEjercicio.add("puntoInicial", gson.toJsonTree(ejercicio.getPuntoInicial()));
             updateEjercicio.add("puntoFinal", gson.toJsonTree(ejercicio.getPuntoFinal()));
             updateEjercicio.addProperty("numRepeticiones", ejercicio.getNumRepeticiones());
