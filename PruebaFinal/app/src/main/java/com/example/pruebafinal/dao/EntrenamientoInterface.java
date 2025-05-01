@@ -1,0 +1,17 @@
+package com.example.pruebafinal.dao;
+
+import com.example.pruebafinal.modelos.Entrenamiento;
+import java.util.List;
+
+/**
+ *
+ * @author jmeri
+ */
+public interface EntrenamientoInterface {
+    public void agregarEntrenamiento(Entrenamiento entrenamiento);
+    public void eliminarEntrenamiento(Entrenamiento entrenamiento);
+    public List<Entrenamiento> getListaEntrenamientos();
+    public Entrenamiento getEntrenamiento(Entrenamiento entrenamiento);
+    public void setListaEntrenamientos(List<Entrenamiento> listaEntrenamientos);
+    public void actualizaEntrenamientos(Entrenamiento entrenamiento);
+}
