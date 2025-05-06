@@ -1,5 +1,6 @@
 package com.example.pruebafinal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -31,6 +32,14 @@ public class EjerciciosActivity extends AppCompatActivity {
             runOnUiThread(() -> {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ejercicioNames);
                 listView.setAdapter(adapter);
+
+                // Pass only the objectId to the next activity
+                listView.setOnItemClickListener((parent, view, position, id) -> {
+                    String objectId = ejercicios.get(position).getObjectId(); // Get the objectId
+                    Intent intent = new Intent(EjerciciosActivity.this, EjercicioDetailsActivity.class);
+                    intent.putExtra("objectId", objectId); // Pass the objectId
+                    startActivity(intent);
+                });
             });
         }).start();
     }
