@@ -28,6 +28,12 @@
             android:name=".MenuInicial"
             android:exported="false" />
         <activity
+            android:name=".EjerciciosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EntrenamientosActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
