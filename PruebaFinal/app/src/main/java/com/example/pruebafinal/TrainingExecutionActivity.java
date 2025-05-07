@@ -33,7 +33,7 @@ public class TrainingExecutionActivity extends AppCompatActivity implements Sens
     private SensorManager sensorManager;
     private Sensor accelerometer;
 
-    private static final float STEP_THRESHOLD = 10f; // Umbral para detectar paso
+    private static final float STEP_THRESHOLD = 15f; // Umbral para detectar paso
     private int pasosDetectados = 0;
     private float distanciaObjetivo = 100.0f; // En metros
     private float distanciaRecorrida = 0.0f;
@@ -163,7 +163,7 @@ public class TrainingExecutionActivity extends AppCompatActivity implements Sens
 
         if (magnitude > STEP_THRESHOLD) {
             pasosDetectados++;
-            distanciaRecorrida = pasosDetectados * 0.8f;
+            distanciaRecorrida = pasosDetectados * 0.6f;
 
             repeticionesTiempo.setText("Distancia: " + (int) distanciaRecorrida + "m / " + (int) distanciaObjetivo + "m");
 
