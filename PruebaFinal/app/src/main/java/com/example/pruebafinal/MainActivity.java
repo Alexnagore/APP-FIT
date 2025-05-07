@@ -10,6 +10,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pruebafinal.dao.APIRESTUsuario;
+import com.example.pruebafinal.modelos.SesionUsuario;
 import com.example.pruebafinal.modelos.Usuario;
 
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("Usuario Nuevo", "Usuario nuevo: " + nuevoUsuario);
                 }
                 // Abrir actividad de MenuInicial, le paso el usuario
+                SesionUsuario.setUsuario(nuevoUsuario);
                 Intent intent = new Intent(MainActivity.this, MenuInicial.class);
                 intent.putExtra("usuario", nuevoUsuario);
                 startActivity(intent);

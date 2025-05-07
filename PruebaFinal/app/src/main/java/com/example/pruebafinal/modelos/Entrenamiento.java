@@ -1,9 +1,10 @@
 package com.example.pruebafinal.modelos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Entrenamiento {
+public class Entrenamiento implements Serializable {
 
     private String objectId;
     private String nombre;

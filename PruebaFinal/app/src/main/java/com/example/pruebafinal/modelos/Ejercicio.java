@@ -2,7 +2,9 @@ package com.example.pruebafinal.modelos;
 
 import android.annotation.SuppressLint;
 
-public class Ejercicio {
+import java.io.Serializable;
+
+public class Ejercicio implements Serializable {
     private String objectId;
     private String nombre;
     private int puntuacion;
