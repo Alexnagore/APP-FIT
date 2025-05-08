@@ -37,7 +37,7 @@ public class TablaPuntuaciones extends AppCompatActivity {
                         .sorted((u1, u2) -> Integer.compare(u2.getPuntuacion(), u1.getPuntuacion())) // Ordenar por puntuación descendente
                         .map(usuario -> usuario.getNombre() + ": " + usuario.getPuntuacion())
                         .collect(Collectors.toList());
-
+                System.out.println("Lista de usuarios: " + texts);
                 ListView listView = findViewById(R.id.list);
                 itemsAdapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.listText, texts) {
                     @Override

@@ -1,0 +1,73 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- TextView for the message -->
+    <TextView
+        android:id="@+id/drawMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dibuja cómo te has sentido"
+        android:textSize="18sp"
+        android:gravity="center"/>
+    <!-- Color selection buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:id="@+id/colorRed"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@null"
+            android:background="@color/red" />
+
+        <Button
+            android:id="@+id/colorBlue"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@null"
+            android:background="@color/blue" />
+
+        <Button
+            android:id="@+id/colorGreen"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@null"
+            android:background="@color/green" />
+
+        <Button
+            android:id="@+id/colorYellow"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@null"
+            android:background="@color/yellow" />
+
+        <Button
+            android:id="@+id/colorBlack"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@null"
+            android:background="@color/black" />
+    </LinearLayout>
+
+    <!-- Drawing area -->
+    <com.example.pruebafinal.OnTouchPaintLineView
+        android:id="@+id/paintView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white" />
+
+    <!-- Button to return to the main menu -->
+    <Button
+        android:id="@+id/volverInicioBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Volver a inicio" />
+</LinearLayout>

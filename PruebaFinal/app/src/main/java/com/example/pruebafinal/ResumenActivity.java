@@ -2,6 +2,7 @@ package com.example.pruebafinal;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -26,11 +27,11 @@ public class ResumenActivity extends AppCompatActivity {
         usuario = SesionUsuario.getUsuario();
 
         puntuacionTextView.setText("Puntuación total: " + puntuacionTotal);
-
+        Log.d("usuario", "Usuario: " + usuario);
         if (usuario != null) {
             usuario.setPuntuacion(usuario.getPuntuacion() + puntuacionTotal);
             usuario.setEntrenamientosCompletados(usuario.getEntrenamientosCompletados() + 1);
-
+            Log.d("usuario", "Usuario: " + usuario);
             new Thread(() -> {
                 APIRESTUsuario api = new APIRESTUsuario();
                 api.actualizaUsuario(usuario);
@@ -38,9 +39,8 @@ public class ResumenActivity extends AppCompatActivity {
         }
 
         volverInicioBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(this, MenuInicial.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("usuario", usuario);
+            Intent intent = new Intent(this, DrawingActivity.class);
+            intent.putExtra("usuario", usuario); // Pasa el objeto usuario
             startActivity(intent);
             finish();
         });
