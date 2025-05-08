@@ -8,11 +8,9 @@ import java.util.List;
  * @author jmeri
  */
 public interface EjercicioInterface {
-    
-    public void agregarEjercicio(Ejercicio ejercicio);
-    public void eliminarEjercicio(Ejercicio ejercicio);
+    public String agregarEjercicio(Ejercicio ejercicio);
+    public void eliminarEjercicio(String objectId);
     public List<Ejercicio> getListaEjercicios();
-    public Ejercicio getEjercicio(Ejercicio ejercicio);
-    public void setListaEjercicios(List<Ejercicio> listaEjercicios);
-    public void actualizaEjercicios(Ejercicio ejercicio);
+    public Ejercicio getEjercicio(String objectId);
+    public void actualizaEjercicio(Ejercicio ejercicio);
 }

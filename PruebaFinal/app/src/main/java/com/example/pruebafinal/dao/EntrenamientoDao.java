@@ -8,6 +8,7 @@ import java.util.List;
  *
  * @author jmeri
  */
+/*
 public class EntrenamientoDao implements EntrenamientoInterface {
     private List<Entrenamiento> listaEntrenamientos;
     
@@ -16,10 +17,16 @@ public class EntrenamientoDao implements EntrenamientoInterface {
     }
     
     @Override
-    public void agregarEntrenamiento(Entrenamiento entrenamiento){
+    public String agregarEntrenamiento(Entrenamiento entrenamiento){
         listaEntrenamientos.add(entrenamiento);
+        return null;
     }
-    
+
+    @Override
+    public void eliminarEntrenamiento(String objectId) {
+
+    }
+
     @Override
     public void eliminarEntrenamiento(Entrenamiento entrenamiento){
         listaEntrenamientos.remove(listaEntrenamientos.indexOf(entrenamiento));
@@ -29,7 +36,12 @@ public class EntrenamientoDao implements EntrenamientoInterface {
     public List<Entrenamiento> getListaEntrenamientos() {
         return listaEntrenamientos;
     }
-    
+
+    @Override
+    public Entrenamiento getEntrenamiento(String objectId) {
+        return null;
+    }
+
     @Override
     public Entrenamiento getEntrenamiento(Entrenamiento entrenamiento) {
         return listaEntrenamientos.get(listaEntrenamientos.indexOf(entrenamiento));
@@ -45,3 +57,4 @@ public class EntrenamientoDao implements EntrenamientoInterface {
         listaEntrenamientos.set(listaEntrenamientos.indexOf(entrenamiento), entrenamiento);
     }
 }
+*/

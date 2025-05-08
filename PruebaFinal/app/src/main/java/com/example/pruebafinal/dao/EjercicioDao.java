@@ -3,7 +3,7 @@ package com.example.pruebafinal.dao;
 /**
  *
  * @author jmeri
- */
+
 
 import com.example.pruebafinal.modelos.Ejercicio;
 import java.util.ArrayList;
@@ -47,3 +47,4 @@ public class EjercicioDao implements EjercicioInterface {
         listaEjercicios.set(listaEjercicios.indexOf(ejercicio), ejercicio);
     }
 }
+*/

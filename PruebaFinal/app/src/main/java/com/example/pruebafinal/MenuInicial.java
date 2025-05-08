@@ -41,16 +41,18 @@ public class MenuInicial extends AppCompatActivity {
         trainingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Acción para Entrenamientos
+                Intent intent = new Intent(MenuInicial.this, EntrenamientosActivity.class);
                 System.out.println("Entrenamientos seleccionados");
+                startActivity(intent); // Añadida esta línea para iniciar la actividad
             }
         });
 
         exercisesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Acción para Ejercicios
+                Intent intent = new Intent(MenuInicial.this, EjerciciosActivity.class);
                 System.out.println("Ejercicios seleccionados");
+                startActivity(intent); // Añadida esta línea para iniciar la actividad
             }
         });
 

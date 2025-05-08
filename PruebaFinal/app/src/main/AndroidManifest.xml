@@ -22,10 +22,28 @@
         android:theme="@style/Theme.PruebaFinal"
         tools:targetApi="31">
         <activity
+            android:name=".ResumenActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TrainingExecutionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EjercicioDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TrainingDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".TablaPuntuaciones"
             android:exported="false" />
         <activity
             android:name=".MenuInicial"
+            android:exported="false" />
+        <activity
+            android:name=".EjerciciosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EntrenamientosActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
