@@ -10,6 +10,7 @@ public class CrearEntrenamientoVista extends JFrame {
     private JTextField nombreEntrenamientoField;
     private JPanel ejerciciosPanel;
     private JButton guardarButton;
+    private List<String> ordenSeleccion = new ArrayList<>();
     
     public CrearEntrenamientoVista(List<Ejercicio> ejerciciosDisponibles) {
         setTitle("Nuevo Entrenamiento");
@@ -29,7 +30,17 @@ public class CrearEntrenamientoVista extends JFrame {
         
         for (Ejercicio ejercicio : ejerciciosDisponibles) {
             JCheckBox checkBox = new JCheckBox(ejercicio.toString());
-            checkBox.setActionCommand(ejercicio.getObjectId());
+            checkBox.addItemListener(e -> {
+                String id = checkBox.getActionCommand();
+                if (checkBox.isSelected()) {
+                    ordenSeleccion.add(id);
+                } else {
+                    ordenSeleccion.remove(id);
+                }
+
+                System.out.println("Orden de selección: " + ordenSeleccion);
+            });
+
             ejerciciosPanel.add(checkBox);
         }
         
