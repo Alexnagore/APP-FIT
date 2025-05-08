@@ -15,10 +15,11 @@ import app.fit.vistas.EntrenamientosVista;
 import app.fit.vistas.EjerciciosVista;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -28,8 +29,8 @@ public class AppControlador {
     private final APIRESTEjercicio ejercicios;
     private final APIRESTEntrenamiento entrenamientos;
     private final APIRESTUsuario inventarioUsuario;
-    private List<Ejercicio> listaEjercicios;
-    private List<Entrenamiento> listaEntrenamientos;
+    private final List<Ejercicio> listaEjercicios;
+    private final List<Entrenamiento> listaEntrenamientos;
     private EntrenamientosVista vistaEntrenamientos;
     private EjerciciosVista vistaEjercicios;
     
@@ -108,15 +109,15 @@ public class AppControlador {
             }
         }
         
+        JPanel listaPanel = vistaEntrenamientos.getEjerciciosListPanel();
+        listaPanel.removeAll();
+        
         if (seleccionado != null) {
-            StringBuilder sb = new StringBuilder();
             for (Ejercicio ejercicio : seleccionado.getEjercicios()) {
-                sb.append(ejercicio.toString()).append("\n");
-                System.out.println(ejercicio.toString());
+                listaPanel.add(vistaEntrenamientos.agregarEjercicioVisual(ejercicio.getNombre()));
             }
-            vistaEntrenamientos.getEjercicioArea().setText(sb.toString());
         } else {
-            vistaEntrenamientos.getEjercicioArea().setText("Entrenamiento no encontrado");
+            listaPanel.add(new JLabel("Entrenamiento no encontrado"));
         }
     }
     
@@ -212,33 +213,6 @@ public class AppControlador {
             partida.getUsuario().incrementarEntrenamientosCompletados();
         }
     }
-    
-    
-    
-    
-    
-    private void probarMetodosDAO() {
-        System.out.println("---- Listado de Ejercicios ----");
-        ArrayList<Ejercicio> listaEjercicios = new ArrayList<Ejercicio>();
-        listaEjercicios = this.ejercicios.getListaEjercicios();
-        for (Ejercicio e : listaEjercicios) {
-            System.out.println(e);
-        }
-
-        System.out.println("---- Listado de Entrenamientos ----");
-        ArrayList<Entrenamiento> listaEntrenamientos =new ArrayList<Entrenamiento>();
-        listaEntrenamientos = this.entrenamientos.getListaEntrenamientos();
-        for (Entrenamiento entrenamiento : listaEntrenamientos) {
-            System.out.println(entrenamiento);
-        }
-
-        System.out.println("---- Listado de Usuarios ----");
-        for (Usuario u : listarUsuarios()) {
-            System.out.println(u);
-        }
-        //System.out.println("Obtener Usuario en índice 2: " + obtenerUsuario(2));
-    }
-    
     
     public List<Ejercicio> listarEjercicios() {
         return ejercicios.getListaEjercicios();
