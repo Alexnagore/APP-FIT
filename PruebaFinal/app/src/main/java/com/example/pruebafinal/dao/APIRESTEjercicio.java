@@ -18,9 +18,9 @@ import okhttp3.Response;
 public class APIRESTEjercicio implements EjercicioInterface {
 
     private final String API_URL = "https://parseapi.back4app.com/classes/Ejercicio";
-    private final String APPLICATION_ID = "IYenyQCIaDzxFOHg1VOrfylNtpXD8Ayq4FXbjkmF";
-
-    private final String REST_API_KEY ="dNuBWXVk7SFzoOZhJNfyV5pxOeUCDFzSuoENa396";
+    private final String APPLICATION_ID ="3W9GkoWV0JU3Wbo4XMHQKThkMbZreQrQTYPXAQ8x";
+    private final String REST_API_KEY ="I5VOYj7ZsahchwSf9Po970WMJlGxAtqxpwBFjubu";
+    
     @Override
     public String agregarEjercicio(Ejercicio ejercicio) {
         Gson gson = new Gson();
