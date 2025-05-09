@@ -1,4 +1,4 @@
-package com.example.pruebafinal;
+package com.example.pruebafinal.views;
 
 import android.Manifest;
 import android.content.Intent;
@@ -19,7 +19,12 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
-import java.io.IOException;import com.example.pruebafinal.modelos.Usuario;
+import java.io.IOException;
+
+import com.example.pruebafinal.GymApp;
+import com.example.pruebafinal.R;
+import com.example.pruebafinal.business.UsuarioManager;
+import com.example.pruebafinal.modelos.Usuario;
 
 
 public class Perfil extends AppCompatActivity {
@@ -27,14 +32,22 @@ public class Perfil extends AppCompatActivity {
     private static final int REQUEST_GALLERY_IMAGE = 102;
     private Uri photoURI;
 
+    private UsuarioManager usuarioManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("Perfil");
         setContentView(R.layout.activity_menu);
+
+        // Obtener el manager de usuarios desde GymApp
+        usuarioManager = ((GymApp) getApplication()).getUsuarioManager();
+
+        // Obtener el usuario actual
         Usuario usuario = (Usuario) getIntent().getSerializableExtra("usuario");
         Log.d("Perfil", "Usuario recibido: " + usuario);
         Log.d("Perfil Puntuacion", "Usuario recibido: " + usuario.getPuntuacion());
+
         // Configurar datos
         TextView userText = findViewById(R.id.editTextText);
         TextView trainText = findViewById(R.id.editTextText2);

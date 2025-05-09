@@ -1,3 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base styles for color buttons -->
+    <style name="ColorButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">0dp</item>
+    </style>
+
+    <style name="ColorButton.Red">
+        <item name="backgroundTint">@color/red</item>
+    </style>
+
+    <style name="ColorButton.Blue">
+        <item name="backgroundTint">@color/blue</item>
+    </style>
+
+    <style name="ColorButton.Green">
+        <item name="backgroundTint">@color/green</item>
+    </style>
+
+    <style name="ColorButton.Yellow">
+        <item name="backgroundTint">@color/yellow</item>
+    </style>
+
+    <style name="ColorButton.Black">
+        <item name="backgroundTint">@color/black</item>
+    </style>
 </resources>

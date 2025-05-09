@@ -1,4 +1,4 @@
-package com.example.pruebafinal;
+package com.example.pruebafinal.views;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -7,8 +7,9 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.pruebafinal.OnTouchPaintLineView;
+import com.example.pruebafinal.R;
 import com.example.pruebafinal.modelos.Usuario;
-
 
 public class DrawingActivity extends AppCompatActivity {
 
@@ -30,6 +31,7 @@ public class DrawingActivity extends AppCompatActivity {
         findViewById(R.id.colorGreen).setOnClickListener(v -> paintView.setDrawColor(Color.GREEN));
         findViewById(R.id.colorYellow).setOnClickListener(v -> paintView.setDrawColor(Color.YELLOW));
         findViewById(R.id.colorBlack).setOnClickListener(v -> paintView.setDrawColor(Color.BLACK));
+
         volverInicioBtn.setOnClickListener(v -> {
             Intent intent = new Intent(this, MenuInicial.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

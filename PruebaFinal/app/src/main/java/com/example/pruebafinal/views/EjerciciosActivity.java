@@ -1,4 +1,4 @@
-package com.example.pruebafinal;
+package com.example.pruebafinal.views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,9 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.pruebafinal.dao.APIRESTEjercicio;
+import com.example.pruebafinal.GymApp;
+import com.example.pruebafinal.R;
+import com.example.pruebafinal.business.EjercicioManager;
 import com.example.pruebafinal.modelos.Ejercicio;
 
 import java.util.ArrayList;
@@ -15,16 +17,20 @@ import java.util.List;
 
 public class EjerciciosActivity extends AppCompatActivity {
 
+    private EjercicioManager ejercicioManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ejercicios);
 
+        // Obtener el manager de ejercicios desde GymApp
+        ejercicioManager = ((GymApp) getApplication()).getEjercicioManager();
+
         ListView listView = findViewById(R.id.ejercicios_list);
 
-        APIRESTEjercicio apiRESTEjercicio = new APIRESTEjercicio();
-        new Thread(() -> {
-            List<Ejercicio> ejercicios = apiRESTEjercicio.getListaEjercicios();
+        // Obtener la lista de ejercicios usando EjercicioManager
+        ejercicioManager.getListaEjercicios(ejercicios -> {
             List<String> ejercicioNames = new ArrayList<>();
             for (Ejercicio ejercicio : ejercicios) {
                 ejercicioNames.add(ejercicio.getNombre());
@@ -41,6 +47,6 @@ public class EjerciciosActivity extends AppCompatActivity {
                     startActivity(intent);
                 });
             });
-        }).start();
+        });
     }
 }

@@ -13,6 +13,7 @@
         android:text="Dibuja cómo te has sentido"
         android:textSize="18sp"
         android:gravity="center"/>
+
     <!-- Color selection buttons -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,36 +25,31 @@
             android:id="@+id/colorRed"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:backgroundTint="@null"
-            android:background="@color/red" />
+            style="@style/ColorButton.Red" />
 
         <Button
             android:id="@+id/colorBlue"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:backgroundTint="@null"
-            android:background="@color/blue" />
+            style="@style/ColorButton.Blue" />
 
         <Button
             android:id="@+id/colorGreen"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:backgroundTint="@null"
-            android:background="@color/green" />
+            style="@style/ColorButton.Green" />
 
         <Button
             android:id="@+id/colorYellow"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:backgroundTint="@null"
-            android:background="@color/yellow" />
+            style="@style/ColorButton.Yellow" />
 
         <Button
             android:id="@+id/colorBlack"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:backgroundTint="@null"
-            android:background="@color/black" />
+            style="@style/ColorButton.Black" />
     </LinearLayout>
 
     <!-- Drawing area -->

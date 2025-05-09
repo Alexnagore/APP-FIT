@@ -9,7 +9,7 @@ public class Partida {
     private Usuario usuario;
     private List<Entrenamiento> entrenamientos;
 
-    public Partida (Usuario usuario) {
+    public Partida () {
         this.usuario = usuario;
         this.entrenamientos = new ArrayList();
     }

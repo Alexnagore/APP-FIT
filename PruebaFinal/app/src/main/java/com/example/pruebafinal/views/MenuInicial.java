@@ -1,4 +1,4 @@
-package com.example.pruebafinal;
+package com.example.pruebafinal.views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,14 +8,22 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.pruebafinal.GymApp;
+import com.example.pruebafinal.R;
+import com.example.pruebafinal.business.UsuarioManager;
 import com.example.pruebafinal.modelos.Usuario;
 
 public class MenuInicial extends AppCompatActivity {
+
+    private UsuarioManager usuarioManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_inicial);
+
+        // Obtener el manager de usuarios desde GymApp
+        usuarioManager = ((GymApp) getApplication()).getUsuarioManager();
 
         // Mostrar el usuario recibido
         Usuario usuario = (Usuario) getIntent().getSerializableExtra("usuario");
@@ -32,8 +40,7 @@ public class MenuInicial extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Acción para Tabla de Puntuaciones
-                System.out.println("Tabla de Puntuaciones seleccionada");
-                Intent intent = new Intent(MenuInicial.this, TablaPuntuaciones.class);
+                Intent intent = new Intent(MenuInicial.this, GymApp.TablaPuntuaciones.class);
                 startActivity(intent);
             }
         });
@@ -41,29 +48,28 @@ public class MenuInicial extends AppCompatActivity {
         trainingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Acción para Entrenamientos
                 Intent intent = new Intent(MenuInicial.this, EntrenamientosActivity.class);
-                System.out.println("Entrenamientos seleccionados");
-                startActivity(intent); // Añadida esta línea para iniciar la actividad
+                startActivity(intent);
             }
         });
 
         exercisesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Acción para Ejercicios
                 Intent intent = new Intent(MenuInicial.this, EjerciciosActivity.class);
-                System.out.println("Ejercicios seleccionados");
-                startActivity(intent); // Añadida esta línea para iniciar la actividad
+                startActivity(intent);
             }
         });
 
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Acción para Perfil
                 Intent intent = new Intent(MenuInicial.this, Perfil.class);
                 intent.putExtra("usuario", usuario);
                 startActivity(intent);
-                // Acción para Perfil
-                System.out.println("Perfil seleccionado");
             }
         });
     }
