@@ -2,6 +2,7 @@ package com.example.pruebafinal.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -14,6 +15,7 @@ import com.example.pruebafinal.modelos.Ejercicio;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class EjerciciosActivity extends AppCompatActivity {
 
@@ -21,6 +23,17 @@ public class EjerciciosActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            getWindow().setDecorFitsSystemWindows(false);
+        } else {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        }
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ejercicios);
 
@@ -33,6 +46,9 @@ public class EjerciciosActivity extends AppCompatActivity {
         ejercicioManager.getListaEjercicios(ejercicios -> {
             List<String> ejercicioNames = new ArrayList<>();
             for (Ejercicio ejercicio : ejercicios) {
+                if(Objects.equals(ejercicio.getNombre(), "Descanso")) {
+                    continue;
+                }
                 ejercicioNames.add(ejercicio.getNombre());
             }
             runOnUiThread(() -> {

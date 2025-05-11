@@ -8,11 +8,9 @@
 
     <TextView
         android:id="@+id/descriptionText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Descripción"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textSize="18sp"
         android:layout_marginBottom="12dp" />
 
     <TextView
@@ -30,4 +28,12 @@
         android:text="Tiempo"
         android:textSize="18sp"
         android:layout_marginBottom="24dp" />
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+
 </LinearLayout>
