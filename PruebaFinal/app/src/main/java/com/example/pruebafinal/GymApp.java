@@ -1,7 +1,9 @@
 package com.example.pruebafinal;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +44,11 @@ import com.example.pruebafinal.views.DrawingActivity;
 import com.example.pruebafinal.views.MenuInicial;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 
 /**
  * Clase Application personalizada para gestionar la inyección de dependencias
@@ -224,6 +231,17 @@ public class GymApp extends Application {
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                getWindow().setDecorFitsSystemWindows(false);
+            } else {
+                getWindow().getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+            }
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().hide();
+            }
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_training_details);
 
@@ -255,17 +273,123 @@ public class GymApp extends Application {
                     }
                 });
             }
+            AtomicReference<FusedLocationProviderClient> fusedLocationClient = new AtomicReference<>(LocationServices.getFusedLocationProviderClient(this));
+            if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                fusedLocationClient.get().getLastLocation().addOnSuccessListener(location -> {
+                    if (location != null) {
+                        // Coordenadas del aulario (rectángulo)
 
-            startButton.setOnClickListener(v -> {
-                entrenamientoManager.getEntrenamiento(objectId, entrenamiento -> {
-                    if (entrenamiento != null) {
-                        runOnUiThread(() -> {
-                            Intent intent = new Intent(TrainingDetailsActivity.this, TrainingExecutionActivity.class);
-                            intent.putExtra("entrenamiento", entrenamiento);
-                            startActivity(intent);
-                        });
+                        double latMin = 42.799723; // Ejemplo: latitud mínima
+                        double latMax = 42.801136; // Ejemplo: latitud máxima
+                        double lonMin = -1.635461; // Ejemplo: longitud mínima
+                        double lonMax = -1.637867; // Ejemplo: longitud máxima
+
+                        /*
+                        // Prueba de coordenadas
+                        latMin = 39.8000; // Ejemplo: latitud mínima
+                        latMax = 47.8010; // Ejemplo: latitud máxima
+                        lonMin = -5.6360; // Ejemplo: longitud mínima
+                        lonMax = 1.6350; // Ejemplo: longitud máxima
+                        */
+
+                        double userLat = location.getLatitude();
+                        double userLon = location.getLongitude();
+
+                        Log.d("Location", "User Location: " + userLat + ", " + userLon);
+                        ImageView imageView = findViewById(R.id.imageView);
+                        TextView descriptionText = findViewById(R.id.descriptionText);
+                        if (userLat >= latMin && userLat <= latMax && userLon >= lonMin && userLon <= lonMax) {
+                            Log.d("Location", "User is inside the aulario");
+                            // Usuario dentro del aulario, iniciar entrenamiento
+                            descriptionText.setText("Estas en el aulario");
+                            descriptionText.setTextColor(Color.GREEN);
+                            imageView.setImageResource(R.drawable.aulario);
+                        } else {
+                            // Usuario fuera del aulario, mostrar mensaje de error
+                            descriptionText.setText("No estas en el aulario");
+                            imageView.setImageResource(R.drawable.aulario_error);
+                            descriptionText.setTextColor(Color.RED);
+                            startButton.setEnabled(false);
+                            runOnUiThread(() -> Toast.makeText(this, "Error: Debes estar dentro del aulario para comenzar.", Toast.LENGTH_SHORT).show());
+                        }
+                    } else {
+                        // No se pudo obtener la ubicación
+                        runOnUiThread(() -> Toast.makeText(this, "Error: No se pudo obtener la ubicación actual.", Toast.LENGTH_SHORT).show());
                     }
                 });
+            } else {
+                // Permiso no concedido
+                Toast.makeText(this, "Error: No se tienen permisos de ubicación.", Toast.LENGTH_SHORT).show();
+            }
+
+            startButton.setOnClickListener(v -> {
+                fusedLocationClient.set(LocationServices.getFusedLocationProviderClient(this));
+
+                if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    fusedLocationClient.get().getLastLocation().addOnSuccessListener(location -> {
+                        if (location != null) {
+                            // Coordenadas del aulario (rectángulo)
+
+                            double latMin = 42.799723; // Ejemplo: latitud mínima
+                            double latMax = 42.801136; // Ejemplo: latitud máxima
+                            double lonMin = -1.635461; // Ejemplo: longitud mínima
+                            double lonMax = -1.637867; // Ejemplo: longitud máxima
+
+                            // Sirve para que sea justamente el rectangulo del aulario
+                            /*import com.google.maps.android.PolyUtil;
+                            import com.google.android.gms.maps.model.LatLng;
+
+                            // Definir los puntos del polígono
+                            List<LatLng> polygonPoints = Arrays.asList(
+                                    new LatLng(42.799988130324, -1.6378452917701332),
+                                    new LatLng(42.801121272728125, -1.6357500811484318),
+                                    new LatLng(42.800870842604645, -1.6354966282506453),
+                                    new LatLng(42.79974513428342, -1.637595218244317),
+                                    new LatLng(42.799988130324, -1.6378452917701332) // Cerrar el polígono
+                            );
+
+                            // Definir el punto a verificar
+                            LatLng userLocation = new LatLng(42.8000, -1.6360);
+
+                            // Verificar si el punto está dentro del polígono
+                            boolean isInside = PolyUtil.containsLocation(userLocation, polygonPoints, true);
+
+                            if (isInside) {
+                                System.out.println("El usuario está dentro del polígono.");
+                            } else {
+                                System.out.println("El usuario está fuera del polígono.");
+                            }*/
+
+                            double userLat = location.getLatitude();
+                            double userLon = location.getLongitude();
+
+                            Log.d("Location", "User Location: " + userLat + ", " + userLon);
+
+                            if (userLat >= latMin && userLat <= latMax && userLon >= lonMin && userLon <= lonMax) {
+                                Log.d("Location", "User is inside the aulario");
+                                // Usuario dentro del aulario, iniciar entrenamiento
+                                entrenamientoManager.getEntrenamiento(objectId, entrenamiento -> {
+                                    if (entrenamiento != null) {
+                                        runOnUiThread(() -> {
+                                            Intent intent = new Intent(TrainingDetailsActivity.this, TrainingExecutionActivity.class);
+                                            intent.putExtra("entrenamiento", entrenamiento);
+                                            startActivity(intent);
+                                        });
+                                    }
+                                });
+                            } else {
+                                // Usuario fuera del aulario, mostrar mensaje de error
+                                runOnUiThread(() -> Toast.makeText(this, "Error: Debes estar dentro del aulario para comenzar.", Toast.LENGTH_SHORT).show());
+                            }
+                        } else {
+                            // No se pudo obtener la ubicación
+                            runOnUiThread(() -> Toast.makeText(this, "Error: No se pudo obtener la ubicación actual.", Toast.LENGTH_SHORT).show());
+                        }
+                    });
+                } else {
+                    // Permiso no concedido
+                    Toast.makeText(this, "Error: No se tienen permisos de ubicación.", Toast.LENGTH_SHORT).show();
+                }
             });
         }
     }
