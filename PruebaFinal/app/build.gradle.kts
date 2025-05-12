@@ -32,6 +32,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.11.0")
     implementation("com.squareup.okhttp3:okhttp:3.14.9")
     implementation ("org.osmdroid:osmdroid-android:6.1.14")
+    implementation ("com.android.volley:volley:1.2.1")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

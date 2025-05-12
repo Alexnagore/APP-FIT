@@ -2,12 +2,12 @@ package com.example.pruebafinal.dao;
 
 import android.util.Log;
 
-import com.example.pruebafinal.modelos.Ejercicio;
 import com.example.pruebafinal.modelos.Usuario;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -25,8 +25,8 @@ import okhttp3.Response;
 public class APIRESTUsuario implements UsuarioInterface {
 
     private final String API_URL = "https://parseapi.back4app.com/classes/Usuario";
-    private final String APPLICATION_ID ="3W9GkoWV0JU3Wbo4XMHQKThkMbZreQrQTYPXAQ8x";
-    private final String REST_API_KEY ="I5VOYj7ZsahchwSf9Po970WMJlGxAtqxpwBFjubu";
+    private final String APPLICATION_ID ="ifahq2RS6hzk7Ea18yPQ42ZjZbMIGQFlWvgGFIAT";
+    private final String REST_API_KEY ="eCPGb30Ej1NSLXzTDwbvjpx7CW33nOKG1OZ1s8Jt";
 
     @Override
     public void agregarUsuario(Usuario usuario) {
