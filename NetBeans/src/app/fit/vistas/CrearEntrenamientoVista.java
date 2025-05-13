@@ -1,35 +1,52 @@
 package app.fit.vistas;
 
 import app.fit.modelos.Ejercicio;
+
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
+
 
 public class CrearEntrenamientoVista extends JFrame {
-    private JTextField nombreEntrenamientoField;
-    private JPanel ejerciciosPanel;
-    private JButton guardarButton;
+    private final JTextField nombreEntrenamientoField;
+    private final JPanel ejerciciosPanel;
+    private final JButton guardarButton;
     private List<String> ordenSeleccion = new ArrayList<>();
     
     public CrearEntrenamientoVista(List<Ejercicio> ejerciciosDisponibles) {
         setTitle("Nuevo Entrenamiento");
-        setSize(400, 300);
-        setLayout(new BorderLayout());
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setMinimumSize(new Dimension(400, 300));
+        setLayout(new BorderLayout(10, 10));
         
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        JPanel panelPrincipal = new JPanel();
+        panelPrincipal.setLayout(new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
+        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
+        JPanel nombrePanel = new JPanel(new BorderLayout(5,5));
         JLabel nombreLabel = new JLabel("Nombre del Entrenamiento");
-        nombreEntrenamientoField = new JTextField(20);
-        panel.add(nombreLabel);
-        panel.add(nombreEntrenamientoField);
+        nombreEntrenamientoField = new JTextField();
+        nombreEntrenamientoField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        nombrePanel.add(nombreLabel, BorderLayout.NORTH);
+        nombrePanel.add(nombreEntrenamientoField, BorderLayout.CENTER);
+        panelPrincipal.add(nombrePanel);
+        panelPrincipal.add(Box.createRigidArea(new Dimension(0, 10)));
         
+        JLabel ejerciciosLabel = new JLabel("Selecciona los ejercicios:");
+        panelPrincipal.add(ejerciciosLabel);
+
         ejerciciosPanel = new JPanel();
         ejerciciosPanel.setLayout(new BoxLayout(ejerciciosPanel, BoxLayout.Y_AXIS));
+        ejerciciosPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        ejerciciosPanel.setAlignmentY(Component.TOP_ALIGNMENT);
         
         for (Ejercicio ejercicio : ejerciciosDisponibles) {
             JCheckBox checkBox = new JCheckBox(ejercicio.toString());
+            checkBox.setAlignmentX(Component.LEFT_ALIGNMENT); 
+            checkBox.setActionCommand(ejercicio.getObjectId());
+            
             checkBox.addItemListener(e -> {
                 String id = checkBox.getActionCommand();
                 if (checkBox.isSelected()) {
@@ -45,16 +62,20 @@ public class CrearEntrenamientoVista extends JFrame {
         }
         
         JScrollPane scrollPane = new JScrollPane(ejerciciosPanel);
-        panel.add(new JLabel("Selecciona los ejercicios:"));
-        panel.add(scrollPane);
+        scrollPane.setPreferredSize(new Dimension(350, 150));
+        scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        
+        panelPrincipal.add(scrollPane);
+        panelPrincipal.add(Box.createRigidArea(new Dimension(0, 15)));
+        
         
         guardarButton = new JButton("Crear Entrenamiento");
-        panel.add(guardarButton);
-        
-        add(panel, BorderLayout.CENTER);
-        
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        guardarButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelPrincipal.add(guardarButton);
+
+        add(panelPrincipal, BorderLayout.CENTER);
+        pack();
     }
     
     public String getNombreEntrenamiento() {
@@ -69,11 +90,16 @@ public class CrearEntrenamientoVista extends JFrame {
                 JCheckBox checkBox = (JCheckBox) comp;
                 if (checkBox.isSelected()) {
                     seleccionados.add(checkBox);
+                    System.out.println("Ejercicio " + checkBox.getName());
                 }
             }
         }
         
         return seleccionados;
+    }
+    
+    public List<String> getOrdenEjercicios() {
+        return ordenSeleccion;
     }
     
     public JButton getGuardarButton() {

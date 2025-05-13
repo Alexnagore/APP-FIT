@@ -12,7 +12,7 @@ public class AppFit {
 
     public static void main(String[] args) {
     
-        AppControlador controlador = new AppControlador();
+        AppControlador controlador = AppControlador.getInstancia();
     }
     
 }

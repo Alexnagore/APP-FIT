@@ -1,7 +1,6 @@
 package app.fit.modelos;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Entrenamiento {
     
@@ -53,7 +52,7 @@ public class Entrenamiento {
 
     @Override
     public String toString() {
-        return "Entrenamiento{" + "ejercicios=" + ejercicios.toString() + '}';
+        return nombre;
     }
 
     public void setNombre(String nombreEntrenamiento) {
@@ -64,6 +63,17 @@ public class Entrenamiento {
         return nombre;
     }
     
+    public void subirEjercicio(Ejercicio ejercicio) {
+        int index = ejercicios.indexOf(ejercicio);
+        if(index > 0) {
+            Collections.swap(ejercicios, index, index -1);
+        }
+    }
     
-    
+    public void bajarEjercicio(Ejercicio ejercicio) {
+        int index = ejercicios.indexOf(ejercicio);
+        if(index > 0) {
+            Collections.swap(ejercicios, index, index +1);
+        }
+    }
 }
