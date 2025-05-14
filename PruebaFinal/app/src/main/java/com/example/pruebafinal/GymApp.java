@@ -5,10 +5,6 @@ import android.app.Application;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -41,7 +37,6 @@ import com.example.pruebafinal.dao.PartidaInterface;
 import com.example.pruebafinal.dao.UsuarioInterface;
 import com.example.pruebafinal.modelos.Ejercicio;
 import com.example.pruebafinal.modelos.Entrenamiento;
-import com.example.pruebafinal.modelos.Partida;
 import com.example.pruebafinal.modelos.SesionUsuario;
 import com.example.pruebafinal.modelos.Usuario;
 import com.example.pruebafinal.views.DrawingActivity;
@@ -57,6 +52,10 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
+
+
+import android.Manifest;
+
 
 /**
  * Clase Application personalizada para gestionar la inyección de dependencias
@@ -449,71 +448,65 @@ public class GymApp extends Application {
 
     }
 
-    public static class TrainingExecutionActivity extends AppCompatActivity implements SensorEventListener {
+    public static class TrainingExecutionActivity extends AppCompatActivity {
 
         private List<Ejercicio> ejercicios;
         private int ejercicioActualIndex = 0;
-        private Entrenamiento entrenamiento;
 
         private TextView nombreEjercicio;
         private TextView repeticionesTiempo;
         private Button siguienteBtn;
         private Button finalizarBtn;
 
-        private SensorManager sensorManager;
-        private Sensor accelerometer;
-
-        private static final float STEP_THRESHOLD = 15f; // Umbral para detectar paso
-        private int pasosDetectados = 0;
-        private float distanciaObjetivo = 100.0f; // En metros
-        private float distanciaRecorrida = 0.0f;
         private boolean carreraActiva = false;
 
         private CountDownTimer countDownTimer;
 
-        // Managers
-        private EntrenamientoManager entrenamientoManager;
-        private EjercicioManager ejercicioManager;
-        private PartidaManager partidaManager;
+        // GPS
+        private FusedLocationProviderClient fusedLocationClient;
+        private LocationCallback locationCallback;
+        private Location ultimaUbicacion;
+        private float distanciaObjetivo = 100.0f; // en metros
+        private float distanciaRecorrida = 0.0f;
+
+        private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
+
+        public TrainingExecutionActivity() {
+            // Constructor vacío
+        }
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                getWindow().setDecorFitsSystemWindows(false);
+            } else {
+                getWindow().getDecorView().setSystemUiVisibility(
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+            }
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().hide();
+            }
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_training_execution);
 
-            // Obtener managers desde GymApp
-            entrenamientoManager = getInstance().getEntrenamientoManager();
-            ejercicioManager = getInstance().getEjercicioManager();
-            partidaManager = getInstance().getPartidaManager();
-
-            // Inicializar vistas
             nombreEjercicio = findViewById(R.id.nombreEjercicio);
             repeticionesTiempo = findViewById(R.id.repeticionesTiempo);
             siguienteBtn = findViewById(R.id.siguienteBtn);
             finalizarBtn = findViewById(R.id.finalizarBtn);
 
-            // Obtener el entrenamiento del intent
-            entrenamiento = (Entrenamiento) getIntent().getSerializableExtra("entrenamiento");
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+            Entrenamiento entrenamiento = (Entrenamiento) getIntent().getSerializableExtra("entrenamiento");
             if (entrenamiento != null) {
                 ejercicios = entrenamiento.getEjercicios();
                 mostrarEjercicioActual();
-            } else {
-                // Si el entrenamiento es null, intentar cargarlo usando su ID
-                String entrenamientoId = getIntent().getStringExtra("entrenamientoId");
-                if (entrenamientoId != null) {
-                    cargarEntrenamientoPorId(entrenamientoId);
-                } else {
-                    Toast.makeText(this, "Error: No se proporcionó un entrenamiento válido", Toast.LENGTH_SHORT).show();
-                    finish();
-                    return;
-                }
             }
 
-            // Configurar listeners de botones
             siguienteBtn.setOnClickListener(v -> avanzarAEjercicioSiguiente());
 
             finalizarBtn.setOnClickListener(v -> {
-                guardarPartida();
                 Toast.makeText(this, "Entrenamiento finalizado manualmente", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, MenuInicial.class);
                 intent.putExtra("usuario", SesionUsuario.getUsuario());
@@ -522,48 +515,26 @@ public class GymApp extends Application {
             });
         }
 
-        /**
-         * Carga un entrenamiento por su ID usando el manager
-         */
-        private void cargarEntrenamientoPorId(String entrenamientoId) {
-            entrenamientoManager.getEntrenamiento(entrenamientoId, entrenamientoRecibido -> {
-                runOnUiThread(() -> {
-                    if (entrenamientoRecibido != null) {
-                        entrenamiento = entrenamientoRecibido;
-                        ejercicios = entrenamiento.getEjercicios();
-                        mostrarEjercicioActual();
-                    } else {
-                        Toast.makeText(this, "Error: No se pudo cargar el entrenamiento", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                });
-            });
-        }
-
         private void mostrarEjercicioActual() {
             if (countDownTimer != null) {
                 countDownTimer.cancel();
             }
+            detenerGPS();
 
-            detenerAcelerometro(); // Por si viene de una carrera anterior
-
-            pasosDetectados = 0;
-            distanciaRecorrida = 0;
+            distanciaRecorrida = 0.0f;
+            ultimaUbicacion = null;
 
             Ejercicio e = ejercicios.get(ejercicioActualIndex);
             nombreEjercicio.setText(e.getNombre());
 
             if (e.getNombre().equalsIgnoreCase("Carrera")) {
                 carreraActiva = true;
-                distanciaObjetivo = 100.0f; // Puedes personalizarlo con datos del ejercicio
-                iniciarAcelerometro();
+                distanciaObjetivo = 100.0f; // o ajustar según el ejercicio
                 repeticionesTiempo.setText("Distancia: 0m / " + (int) distanciaObjetivo + "m");
-
+                iniciarGPS();
                 siguienteBtn.setEnabled(false);
-            }
-            else if (e.getTiempo() > 0) {
+            } else if (e.getTiempo() > 0) {
                 repeticionesTiempo.setText("Duración: " + e.getTiempo() + "s");
-
                 countDownTimer = new CountDownTimer(e.getTiempo() * 1000L, 1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -578,7 +549,6 @@ public class GymApp extends Application {
                         avanzarAEjercicioSiguiente();
                     }
                 }.start();
-
                 siguienteBtn.setEnabled(false);
             } else {
                 repeticionesTiempo.setText("Repeticiones: " + e.getNumRepeticiones());
@@ -591,39 +561,11 @@ public class GymApp extends Application {
                 ejercicioActualIndex++;
                 mostrarEjercicioActual();
             } else {
-                guardarPartida();
                 Toast.makeText(this, "¡Entrenamiento finalizado!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, ResumenActivity.class);
                 intent.putExtra("puntuacionTotal", calcularPuntuacionTotal());
                 startActivity(intent);
                 finish();
-            }
-        }
-
-        /**
-         * Guarda la partida usando el manager
-         */
-        private void guardarPartida() {
-            if (entrenamiento != null && SesionUsuario.getUsuario() != null) {
-                Partida partida = new Partida();
-                partida.setUsuario(SesionUsuario.getUsuario());
-
-                // Usar el manager para guardar la partida
-                partidaManager.agregarPartida(partida);
-            }
-        }
-
-        private void iniciarAcelerometro() {
-            sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-            accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-            if (accelerometer != null) {
-                sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-            }
-        }
-
-        private void detenerAcelerometro() {
-            if (sensorManager != null) {
-                sensorManager.unregisterListener(this);
             }
         }
 
@@ -635,42 +577,75 @@ public class GymApp extends Application {
             return total;
         }
 
+        @SuppressLint("MissingPermission")
+        private void iniciarGPS() {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        LOCATION_PERMISSION_REQUEST_CODE);
+                return;
+            }
+
+            LocationRequest request = LocationRequest.create();
+            request.setInterval(2000);
+            request.setFastestInterval(1000);
+            request.setPriority(Priority.PRIORITY_HIGH_ACCURACY);
+
+            locationCallback = new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult result) {
+                    if (!carreraActiva) return;
+
+                    for (Location loc : result.getLocations()) {
+                        if (loc.getAccuracy() > 20) continue;
+                        if (ultimaUbicacion != null) {
+                            float distancia = ultimaUbicacion.distanceTo(loc);
+                            if (distancia >= 10) {
+                                distanciaRecorrida += distancia;
+                                repeticionesTiempo.setText("Distancia: " + (int) distanciaRecorrida + "m / " + (int) distanciaObjetivo + "m");
+
+                                if (distanciaRecorrida >= distanciaObjetivo) {
+                                    detenerGPS();
+                                    carreraActiva = false;
+                                    Toast.makeText(getApplicationContext(), "¡Carrera completada!", Toast.LENGTH_SHORT).show();
+                                    avanzarAEjercicioSiguiente();
+                                    break;
+                                }
+                                ultimaUbicacion = loc;
+                            }
+                        } else {
+                            ultimaUbicacion = loc;
+                        }
+
+                    }
+                }
+            };
+
+            fusedLocationClient.requestLocationUpdates(request, locationCallback, Looper.getMainLooper());
+        }
+
+        private void detenerGPS() {
+            if (locationCallback != null) {
+                fusedLocationClient.removeLocationUpdates(locationCallback);
+            }
+        }
+
         @Override
         protected void onDestroy() {
             super.onDestroy();
-            detenerAcelerometro();
-            if (countDownTimer != null) {
-                countDownTimer.cancel();
-            }
+            detenerGPS();
         }
 
         @Override
-        public void onSensorChanged(SensorEvent event) {
-            if (!carreraActiva || event.sensor.getType() != Sensor.TYPE_ACCELEROMETER) return;
-
-            float x = event.values[0];
-            float y = event.values[1];
-            float z = event.values[2];
-            float magnitude = (float) Math.sqrt(x * x + y * y + z * z);
-
-            if (magnitude > STEP_THRESHOLD) {
-                pasosDetectados++;
-                distanciaRecorrida = pasosDetectados * 0.6f;
-
-                repeticionesTiempo.setText("Distancia: " + (int) distanciaRecorrida + "m / " + (int) distanciaObjetivo + "m");
-
-                if (distanciaRecorrida >= distanciaObjetivo) {
-                    carreraActiva = false;
-                    detenerAcelerometro();
-                    Toast.makeText(this, "¡Carrera completada!", Toast.LENGTH_SHORT).show();
-                    avanzarAEjercicioSiguiente();
-                }
+        public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            if (requestCode == LOCATION_PERMISSION_REQUEST_CODE &&
+                    grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                iniciarGPS();
+            } else {
+                Toast.makeText(this, "Permiso de ubicación requerido", Toast.LENGTH_SHORT).show();
             }
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int i) {
-            // No requiere implementación
         }
     }
 }
